@@ -1,0 +1,10 @@
+# Environnement virtuel
+venv_Dj_Proyecto_Final/
+# Fichiers d'exécution
+__pycache__
+*.pyc
+# Tests et logs
+*.log
+# Database
+db.sqlite3
+
