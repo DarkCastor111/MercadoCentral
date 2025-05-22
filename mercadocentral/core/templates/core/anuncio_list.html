@@ -1,0 +1,47 @@
+{% extends 'core/layout.html' %}
+
+{% block title %} Listado de prendas {% endblock %}
+
+{% block body %}
+    <div class="row">
+        {% for anuncio in anuncio_list %}
+        <div class="col-xl-3 col-md-4 col-sm-6 mt-2 mb-3 ">
+            <div class="card border-primary h-100 animated fadeIn">
+                <img src="{{ anuncio.foto }}" class="card-img-top" alt="{{ anuncio.designacion }}">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ anuncio.designacion }}</h5>
+
+
+                    <p class="card-text">
+                        {% for key, value in anuncio.TIPO_PRENDA.items %}
+                            {% if key == anuncio.prenda %}
+                                <span class="badge text-bg-danger">{{ value }}</span>
+                            {% endif %}
+                        {% endfor %}
+                        {% for key, value in anuncio.ESTADO.items %}
+                            {% if key == anuncio.estado %}
+                                <span class="badge text-bg-warning">{{ value }}</span>
+                            {% endif %}
+                        {% endfor %}
+                        {% for key, value in anuncio.GENERO.items %}
+                            {% if key == anuncio.genero %}
+                                <span class="badge text-bg-success">{{ value }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+
+
+                    <p class="card-text">{{ anuncio.descripcion|linebreaksbr|safe|truncatewords:9 }}</p>
+                    <a href="{% url 'core_anuncio' anuncio.id anuncio.designacion|slugify %}" class="btn btn-outline-primary btn-block btn-sm">Detalle...</a>
+                    
+                </div>
+                <div class="card-footer">
+                    <small class="text-primary">Creado el {{ anuncio.created|date:"d F Y" }}</small>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
