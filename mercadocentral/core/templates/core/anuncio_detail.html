@@ -1,6 +1,12 @@
 {% extends "core/layout.html" %}
 
-{% block body %}
+{% block titulo %}Detalle del producto{% endblock %}
+
+{% block navbar %}
+    {% include 'core/navbar.html' %}
+{% endblock %}
+
+{% block contenido %}
 <div class="card border-primary mb-3">
     <div class="row g-0">
         <div class="col-md-4">

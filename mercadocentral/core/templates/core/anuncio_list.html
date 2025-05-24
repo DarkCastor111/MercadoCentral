@@ -1,8 +1,12 @@
 {% extends 'core/layout.html' %}
 
-{% block title %} Listado de prendas {% endblock %}
+{% block titulo %} Listado de prendas {% endblock %}
 
-{% block body %}
+{% block navbar %}
+    {% include 'core/navbar.html' %}
+{% endblock %}
+
+{% block contenido %}
     <div class="row">
         {% for anuncio in anuncio_list %}
         <div class="col-xl-3 col-md-4 col-sm-6 mt-2 mb-3 ">
