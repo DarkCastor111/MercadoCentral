@@ -6,52 +6,77 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            {% with current_prenda=request.session.prenda current_genero=request.session.genero %}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Prenda
+                        {% if not current_prenda or current_prenda == 'PRD_ALL' %}: Todas
+                        {% elif current_prenda == 'PRD_UN' %}: Todos Uniformes
+                        {% elif current_prenda == 'PRD_UN_PAN' %}: Pantalón Uniforme
+                        {% elif current_prenda == 'PRD_UN_SUE' %}: Suéter Uniforme
+                        {% elif current_prenda == 'PRD_UN_FAL' %}: Falda Uniforme
+                        {% elif current_prenda == 'PRD_UN_POL' %}: Polo Uniforme
+                        {% elif current_prenda == 'PRD_DP' %}: Todos Deportes
+                        {% elif current_prenda == 'PRD_DP_PAN' %}: Pantalón Deportes
+                        {% elif current_prenda == 'PRD_DP_BER' %}: Bermuda Deportes
+                        {% elif current_prenda == 'PRD_DP_POL' %}: Polo Deportes
+                        {% elif current_prenda == 'PRD_DP_CHQ' %}: Chaqueta Deportes
+                        {% elif current_prenda == 'PRD_DP_CHD' %}: Chandal completo Deportes
+                        {% endif %}
+
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Todos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_ALL">Todos</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Todos Uniformes</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_UN">Todos Uniformes</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Pantalón</a></li>
-                        <li><a class="dropdown-item" href="#">Suéter</a></li>
-                        <li><a class="dropdown-item" href="#">Falda</a></li>
-                        <li><a class="dropdown-item" href="#">Polo</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_UN_PAN">Pantalón</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_UN_SUE">Suéter</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_UN_FAL">Falda</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_UN_POL">Polo</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Todos Deportes</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP">Todos Deportes</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Chandal Completo</a></li>
-                        <li><a class="dropdown-item" href="#">Bermuda</a></li>
-                        <li><a class="dropdown-item" href="#">Polo</a></li>
-                        <li><a class="dropdown-item" href="#">Pantalón</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_PAN">Pantalón</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_BER">Bermuda</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_POL">Polo</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_CHQ">Chaqueta</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_CHD">Chandal Completo</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Niño / Niña
+                        {% if not current_genero or current_genero == 'GEN_ALL' %}: Todos
+                        {% elif current_genero == 'GEN_MX' %}: Mixto
+                        {% elif current_genero == 'GEN_NO' %}: Niños
+                        {% elif current_genero == 'GEN_NA' %}: Niñas
+                        {% endif %}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Todos</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Niño</a></li>
-                        <li><a class="dropdown-item" href="#">Niña</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?genero=GEN_ALL">Todos</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?genero=GEN_MX">Mixto</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?genero=GEN_NO">Niño</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?genero=GEN_NA">Niña</a></li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'core_home' %}?genero=GEN_ALL&prenda=PRD_ALL"><i class="bi bi-x-square-fill text-danger"></i> Resetar</a>
+                </li>
+
+<!--
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -68,6 +93,7 @@
                         <li><a class="dropdown-item" href="#">Secunda Mano</a></li>
                     </ul>
                 </li>
+-->
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="#">Mis Anuncios</a>
@@ -77,6 +103,7 @@
                 </li>
                 {% endif %}
             </ul>
+            {% endwith %}
             <ul class="d-flex navbar-nav mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
                 <li>

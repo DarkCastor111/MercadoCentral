@@ -3,37 +3,42 @@ from django.db import models
 # Create your models here.
 
 class Anuncio(models.Model):
-    ESCUELA = {
-        "ESC_NIN" : "Ninguna",
-        "ESC_CHI" : "Ispano Ingles"
-    }
+    ESCUELA = [
+        ("ESC_NIN", "Ninguna"),
+        ("ESC_CHI", "Ispano Ingles")
+    ]
 
-    TIPO_PRENDA = {
-        "PRD_NIN" : "Ninguno",
-        "PRD_UN_PAN" : "Pantalón",
-        "PRD_UN_SUE" : "Suéter",
-        "PRD_UN_FAL" : "Falda",
-        "PRD_UN_POL" : "Polo",
-        "PRD_DP_PAN" : "Pantalón",
-        "PRD_DP_BER" : "Bermuda",
-        "PRD_DP_POL" : "Polo",
-        "PRD_DP_CHQ" : "Chaqueta",
-        "PRD_DP_CHD" : "Chandal completo",
-    }
+    TIPO_PRENDA = [
+        ("PRD_NIN", "Ninguno"),
+        ("PRD_ALL", "Todas"),
+        ("PRD_UN", "Todos Uniformes"),
+        ("PRD_UN_PAN", "Pantalón Uniforme"),
+        ("PRD_UN_SUE", "Suéter Uniforme"),
+        ("PRD_UN_FAL", "Falda Uniforme"),
+        ("PRD_UN_POL", "Polo Uniforme"),
+        ("PRD_DP", "Todos Deportes"),
+        ("PRD_DP_PAN", "Pantalón Deportes"),
+        ("PRD_DP_BER", "Bermuda Deportes"),
+        ("PRD_DP_POL", "Polo Deportes"),
+        ("PRD_DP_CHQ", "Chaqueta Deportes"),
+        ("PRD_DP_CHD", "Chandal completo Deportes")
+    ]
 
-    ESTADO = {
-        "EST_NIN" : "No precisado",
-        "EST_NUEVO" : "Nuevo",
-        "EST_COMNUE" : "Como nuevo",
-        "EST_PRIM" : "Primera mano",
-        "EST_SEC" : "Secunda mano",
-    }
+    ESTADO = [
+        ("EST_ALL", "Todos"),
+        ("EST_NIN", "No precisado"),
+        ("EST_NUEVO", "Nuevo"),
+        ("EST_COMNUE", "Como nuevo"),
+        ("EST_PRIM", "Primera mano"),
+        ("EST_SEC", "Secunda mano"),
+    ]
 
-    GENERO = {
-        "GEN_AMB" : "Ambos",
-        "GEN_NO" : "Niño",
-        "GEN_NA" : "Niña",
-    }   
+    GENERO = [
+        ("GEN_ALL", "Todos"),
+        ("GEN_MX", "Mixto"),
+        ("GEN_NO", "Niño"),
+        ("GEN_NA", "Niña"),
+    ]   
 
 
     designacion = models.CharField(verbose_name="Designación", max_length=200)
