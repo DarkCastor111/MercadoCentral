@@ -51,7 +51,8 @@
                         <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_BER">Bermuda</a></li>
                         <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_POL">Polo</a></li>
                         <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_CHQ">Chaqueta</a></li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_CHD">Chandal Completo</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_CHD">Chandal Completo</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -66,17 +67,20 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'core_home' %}?genero=GEN_ALL">Todos</a></li>
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li><a class="dropdown-item" href="{% url 'core_home' %}?genero=GEN_MX">Mixto</a></li>
                         <li><a class="dropdown-item" href="{% url 'core_home' %}?genero=GEN_NO">Niño</a></li>
                         <li><a class="dropdown-item" href="{% url 'core_home' %}?genero=GEN_NA">Niña</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core_home' %}?genero=GEN_ALL&prenda=PRD_ALL"><i class="bi bi-x-square-fill text-danger"></i> Resetar</a>
+                    <a class="nav-link" href="{% url 'core_home' %}?genero=GEN_ALL&prenda=PRD_ALL"><i
+                            class="bi bi-x-square-fill text-danger"></i> Resetar</a>
                 </li>
 
-<!--
+                <!--
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -112,7 +116,11 @@
                 <li>
                     <form id="logout-form" method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button type="submit"><i class="bi bi-box-arrow-right"></i> Salir</button>
+                        <!-- <button type="submit"><i class="bi bi-box-arrow-right"></i> Salir</button> -->
+                        <a href="#" class="nav-link"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Salir <i class="bi bi-box-arrow-right text-danger bold"></i>
+                        </a>
                     </form>
                 </li>
                 {% else %}

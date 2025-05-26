@@ -2,13 +2,56 @@
 {% load static %}
 {% block titulo %}Registrarse{% endblock %}
 {% block contenido %}
-<style>.errorlist{color:red;}</style>
+<style>
+  .errorlist {
+    color: red;
+  }
+</style>
 <main role="main">
   <div class="container">
     <div class="row mt-3">
-      <div class="col-md-9 mx-auto mb-5">
+      <div class="col-lg-6 mx-auto mb-5">
         <form action="" method="post">{% csrf_token %}
-          {{ form.as_p }}
+          <p>
+            <label for="id_username">Nombre de usuario:</label>
+            <input type="text" class="form-control"  name="username" maxlength="150" autofocus required
+              aria-describedby="id_username_helptext" id="id_username">
+
+            <span class="helptext" id="id_username_helptext">Requerido. 150 carácteres como máximo. <br> Únicamente letras,
+              dígitos y @ . + - _ </span>
+          </p>
+
+          <p>
+            <label for="id_email">Correo electrónico:</label>
+            <input type="email" class="form-control" name="email" maxlength="254" id="id_email">
+          </p>
+
+
+          <p>
+            <label for="id_password">Contraseña:</label>
+            <input type="password" class="form-control" name="password1" autocomplete="new-password" required
+              aria-describedby="id_password1_helptext" id="id_password1">
+
+            <span class="helptext" id="id_password1_helptext">
+              <ul>
+                <li>Su contraseña no puede asemejarse tanto a su otra información personal.</li>
+                <li>Su contraseña debe contener al menos 8 caracteres.</li>
+                <li>Su contraseña no puede ser una clave utilizada comúnmente.</li>
+                <li>Su contraseña no puede ser completamente numérica.</li>
+              </ul>
+            </span>
+          </p>
+
+
+          <p>
+            <label for="id_password2">Contraseña (confirmación):</label>
+            <input type="password" class="form-control" name="password2" autocomplete="new-password" required
+              aria-describedby="id_password2_helptext" id="id_password2">
+
+            <span class="helptext" id="id_password2_helptext">Para verificar, introduzca la misma contraseña
+              anterior.</span>
+          </p>
+
           <p><input type="submit" class="btn btn-primary btn-block" value="Confirmar"></p>
         </form>
       </div>

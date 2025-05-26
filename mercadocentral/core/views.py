@@ -22,13 +22,13 @@ class AnunciosListView(ListView):
             filtro_gen = get_gen
             self.request.session['genero'] = get_gen
         else:
-            filtro_gen = self.request.session['genero']
+            filtro_gen = self.request.session.get('genero', "GEN_ALL")
 
         if get_pre:
             filtro_pre = get_pre
             self.request.session['prenda'] = get_pre
         else:
-            filtro_pre = self.request.session['prenda']
+            filtro_pre = self.request.session.get('prenda', "PRD_ALL")
 
         if (filtro_gen != "GEN_ALL"):
             if (filtro_gen == "GEN_MX"):
