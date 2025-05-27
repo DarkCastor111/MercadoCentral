@@ -17,21 +17,9 @@
             <h5 class="card-title">{{ anuncio.designacion }}</h5>
             <div class="card-body">
                 <p class="card-text">
-                    {% for key, value in anuncio.TIPO_PRENDA.items %}
-                        {% if key == anuncio.prenda %}
-                        <span class="badge text-bg-danger">{{ value }}</span>
-                        {% endif %}
-                    {% endfor %}
-                    {% for key, value in anuncio.ESTADO.items %}
-                        {% if key == anuncio.estado %}
-                        <span class="badge text-bg-warning">{{ value }}</span>
-                        {% endif %}
-                    {% endfor %}
-                    {% for key, value in anuncio.GENERO.items %}
-                        {% if key == anuncio.genero %}
-                        <span class="badge text-bg-success">{{ value }}</span>
-                        {% endif %}
-                    {% endfor %}
+                    <span class="badge text-bg-danger">{{ anuncio.get_prenda_display }}</span>
+                    <span class="badge text-bg-warning">{{ anuncio.get_estado_display }}</span>
+                    <span class="badge text-bg-success">{{ anuncio.get_genero_display }}</span>
                 </p>
                 <p class="card-text">{{ anuncio.descripcion|linebreaksbr|safe }}</p>
                 <a href="#" class="btn btn-outline-secondary btn-block btn-sm">Reservar</a>
