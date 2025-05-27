@@ -51,3 +51,12 @@ class AnunciosListView(ListView):
 
 class AnuncioDetailView(DetailView):
     model = Anuncio
+
+class MisAnunciosListView(ListView):
+    model= Anuncio
+
+    def get_queryset(self):
+
+        queryset = super().get_queryset()
+        queryset = queryset.filter(usuario = self.request.user)
+        return queryset

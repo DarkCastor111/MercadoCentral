@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -47,7 +48,9 @@ class Anuncio(models.Model):
     genero = models.CharField(max_length=64, choices=GENERO, null=True)
     estado = models.CharField(max_length=64, choices=ESTADO, null=True)
     prenda = models.CharField(max_length=64, choices=TIPO_PRENDA, null=True)
+    talla = models.SmallIntegerField(null=True)
     foto = models.URLField(max_length=254, null=True)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
