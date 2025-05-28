@@ -1,4 +1,5 @@
 {% extends 'core/layout.html' %}
+{% load static %}
 
 {% block titulo %} Listado de prendas {% endblock %}
 
@@ -11,15 +12,22 @@
         {% for anuncio in anuncio_list %}
         <div class="col-xl-3 col-md-4 col-sm-6 mt-2 mb-3 ">
             <div class="card border-primary h-100 animated fadeIn">
-                <img src="{{ anuncio.foto }}" class="card-img-top" alt="{{ anuncio.designacion }}">
+                {% if anuncio.foto %}
+                    <img src="{{ anuncio.foto.url }}" class="card-img-top" alt="{{ anuncio.designacion }}">
+                {% else %}
+                    <img src="{% static 'core/foto_prenda_default.jpg' %}" class="card-img-top" alt="{{ anuncio.designacion }}">
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title text-primary">{{ anuncio.designacion }}</h5>
 
 
                     <p class="card-text">
-                        <span class="badge text-bg-danger">{{ anuncio.get_prenda_display }}</span>
+                        <span class="badge text-bg-primary">{{ anuncio.get_prenda_display }}</span>
+                        <span class="badge text-bg-primary">{{ anuncio.get_genero_display }}</span>
+                        <span class="badge text-bg-primary">{{ anuncio.talla }}</span>
+                    </p>
+                    <p class="card-text">
                         <span class="badge text-bg-warning">{{ anuncio.get_estado_display }}</span>
-                        <span class="badge text-bg-success">{{ anuncio.get_genero_display }}</span>
                     </p>
 
 

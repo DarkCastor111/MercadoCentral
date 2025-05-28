@@ -3,10 +3,15 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+def custom_upload_to(instancia, nombre_fichero):
+    antigua_instancia = Anuncio.objects.get(pk=instancia.pk)
+    antigua_instancia.foto.delete()
+    return 'anuncios/' + nombre_fichero
+
 class Anuncio(models.Model):
     ESCUELA = [
         ("ESC_NIN", "Ninguna"),
-        ("ESC_CHI", "Ispano Ingles")
+        ("ESC_CHI", "Hispano Inglés")
     ]
 
     TIPO_PRENDA = [
@@ -49,7 +54,7 @@ class Anuncio(models.Model):
     estado = models.CharField(max_length=64, choices=ESTADO, null=True)
     prenda = models.CharField(max_length=64, choices=TIPO_PRENDA, null=True)
     talla = models.SmallIntegerField(null=True)
-    foto = models.URLField(max_length=254, null=True)
+    foto = models.ImageField(upload_to=custom_upload_to, null=True, blank=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")

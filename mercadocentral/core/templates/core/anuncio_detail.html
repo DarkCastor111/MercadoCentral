@@ -1,9 +1,10 @@
 {% extends "core/layout.html" %}
+{% load static %}
 
 {% block titulo %}Detalle del producto{% endblock %}
 
 {% block navbar %}
-    {% include 'core/navbar.html' %}
+{% include 'core/navbar.html' %}
 {% endblock %}
 
 {% block contenido %}
@@ -11,15 +12,22 @@
 <div class="card border-primary mb-3">
     <div class="row g-0">
         <div class="col-md-4">
-            <img src="{{ anuncio.foto }}" class="img-fluid rounded-start" alt="{{ anuncio.designacion }}">
+            {% if anuncio.foto %}
+                <img src="{{ anuncio.foto.url }}" class="card-img-top" alt="{{ anuncio.designacion }}">
+            {% else %}
+                <img src="{% static 'core/foto_prenda_default.jpg' %}" class="card-img-top" alt="{{ anuncio.designacion }}">
+            {% endif %}
         </div>
         <div class="col-md-8">
             <h5 class="card-title">{{ anuncio.designacion }}</h5>
             <div class="card-body">
                 <p class="card-text">
-                    <span class="badge text-bg-danger">{{ anuncio.get_prenda_display }}</span>
+                    <span class="badge text-bg-primary">{{ anuncio.get_prenda_display }}</span>
+                    <span class="badge text-bg-primary">{{ anuncio.get_genero_display }}</span>
+                    <span class="badge text-bg-primary">{{ anuncio.talla }}</span>
+                </p>
+                <p class="card-text">
                     <span class="badge text-bg-warning">{{ anuncio.get_estado_display }}</span>
-                    <span class="badge text-bg-success">{{ anuncio.get_genero_display }}</span>
                 </p>
                 <p class="card-text">{{ anuncio.descripcion|linebreaksbr|safe }}</p>
                 <a href="#" class="btn btn-outline-secondary btn-block btn-sm">Reservar</a>

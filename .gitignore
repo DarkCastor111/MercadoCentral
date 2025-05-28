@@ -7,4 +7,6 @@ __pycache__
 *.log
 # Database
 db.sqlite3
+# Media
+mercadocentral/media/anuncios/
 

@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from core import views
 from usuarios.urls import usuarios_patterns
+from django.conf import settings
 
 urlpatterns = [
 #    path('', views.home, name="core_home"),
@@ -31,3 +32,7 @@ urlpatterns = [
     path('django_auth_urls/', include('django.contrib.auth.urls')),
 
 ]
+
+if settings.DEBUG:
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
