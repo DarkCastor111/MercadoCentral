@@ -4,8 +4,9 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 def custom_upload_to(instancia, nombre_fichero):
-    antigua_instancia = Anuncio.objects.get(pk=instancia.pk)
-    antigua_instancia.foto.delete()
+    if instancia.pk:
+        antigua_instancia = Anuncio.objects.get(pk=instancia.pk)
+        antigua_instancia.foto.delete()
     return 'anuncios/' + nombre_fichero
 
 class Anuncio(models.Model):
