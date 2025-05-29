@@ -25,6 +25,7 @@ urlpatterns = [
     path('', views.AnunciosListView.as_view(), name='core_home'),
     path('<int:pk>/<slug:page_slug>/', views.AnuncioDetailView.as_view(), name='core_anuncio'),
     path('misanuncios/', views.MisAnunciosListView.as_view(), name='core_mis'),
+    path('nv_anuncio/', views.AnuncioCreateView.as_view(), name='core_nv_anun' ),
     path('admin/', admin.site.urls),
     # Paths de Auth
     path('usuarios/', include(usuarios_patterns)),

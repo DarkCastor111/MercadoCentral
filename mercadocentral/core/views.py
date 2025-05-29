@@ -1,7 +1,12 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from .models import Anuncio
+from .forms import AnuncioForm
 
 # Create your views here.
 
@@ -60,3 +65,15 @@ class MisAnunciosListView(ListView):
         queryset = super().get_queryset()
         queryset = queryset.filter(usuario = self.request.user)
         return queryset
+
+@method_decorator(login_required, name='dispatch')    
+class AnuncioCreateView(CreateView):
+    model = Anuncio
+    form_class = AnuncioForm
+
+    # redirección
+    success_url = reverse_lazy('core_mis')
+
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)
