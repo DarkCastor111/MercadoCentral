@@ -32,7 +32,16 @@
 
 
                     <p class="card-text">{{ anuncio.descripcion|linebreaksbr|safe|truncatewords:9 }}</p>
-                    <a href="{% url 'core_anuncio' anuncio.id anuncio.designacion|slugify %}" class="btn btn-outline-primary btn-block btn-sm">Detalle...</a>
+                
+                    {% if origen == "favs" %}
+                    <a href="{% url 'core_anuncio' anuncio.id anuncio.designacion|slugify %}?origen=favs" class="btn btn-outline-primary btn-block btn-sm">Detalle...</a>
+                    {% elif origen == "mis" %}
+                    <a href="{% url 'core_anuncio' anuncio.id anuncio.designacion|slugify %}?origen=mis" class="btn btn-outline-primary btn-block btn-sm">Detalle...</a>
+                    {% else %}
+                    <a href="{% url 'core_anuncio' anuncio.id anuncio.designacion|slugify %}?origen=global" class="btn btn-outline-primary btn-block btn-sm">Detalle...</a>
+                    {% endif %}
+ 
+                    
                     
                 </div>
                 <div class="card-footer">

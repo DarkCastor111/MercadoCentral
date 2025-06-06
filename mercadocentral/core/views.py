@@ -20,6 +20,12 @@ def home(request):
 class AnunciosListView(ListView):
     model = Anuncio
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['origen'] = "global"
+        return context
+
+
     def get_queryset(self):
 
         queryset = super().get_queryset()
@@ -68,6 +74,7 @@ class AnuncioDetailView(DetailView):
             Mensaje.objects.filter(anuncio=anuncio)
             .values_list('author__username', flat=True)
         ))
+        context['origen']=self.request.GET.get('origen')
         return context
     
 @method_decorator(login_required, name='dispatch')   
@@ -79,15 +86,28 @@ class MisAnunciosListView(ListView):
         queryset = super().get_queryset()
         queryset = queryset.filter(usuario = self.request.user)
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['origen'] = "mis"
+        return context
+
 
 @method_decorator(login_required, name='dispatch')       
 class AnunciosFavoritosListView(ListView):
     model = Anuncio
-    context_object_name = 'anuncios'
 
     def get_queryset(self):
+        queryset = super().get_queryset()
         user = self.request.user
-        return Anuncio.objects.filter(mensajes_anuncio__author=user).distinct()    
+        queryset = queryset.filter(mensajes_anuncio__author=user).distinct()
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['origen'] = "favs"
+        return context
+
 
 @method_decorator(login_required, name='dispatch')    
 class AnuncioCreateView(CreateView):

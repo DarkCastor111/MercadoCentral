@@ -31,7 +31,13 @@
                 </p>
                 <p class="card-text">{{ anuncio.descripcion|linebreaksbr|safe }}</p>
                 
-                <p class="card-text"> <span class="badge text-bg-primary">{{ interesados_usernames|length }}</span> Personas interesadas : 
+                <p class="card-text"> 
+                    {% if interesados_usernames|length == 0 %}
+                    {% elif interesados_usernames|length == 1 %}
+                    <span class="badge text-bg-primary">1</span> Persona interesada
+                    {% else %}
+                    <span class="badge text-bg-primary">{{ interesados_usernames|length }}</span> Personas interesadas
+                    {% endif %}
                     {% if user == anuncio.usuario %}
                         {% for usrname in interesados_usernames %}
                             {% if forloop.last %}
@@ -44,20 +50,37 @@
 
                 </p>
 
-                {% for mensaje in anuncio.mensajes_anuncio.all|dictsort:"created" %}
-                    {% if user == anuncio.usuario or user == mensaje.author %}
-                    <div class="alert alert-light" role="alert">
-                            <div class="col-md-6">
-                                {{ mensaje.created }}<br>
-                                <b>{{ mensaje.author }}</b> ({{ mensaje.author.email }}) :
+
+                {% regroup anuncio.mensajes_anuncio.all|dictsort:"created" by author as mensajes_por_autor %}
+
+                {% for grupo in mensajes_por_autor %}
+                    {% if grupo.grouper == user or user == anuncio.usuario %}
+                    <div class="mb-3">
+                        <h6>
+                            {% if grupo.grouper == user %}
+                            <b>Mis mensajes</b>
+                            {% else %}
+                            <b>{{ grupo.grouper }} ({{ grupo.grouper.email }})</b>
+                            {% endif %}
+                        </h6>
+                        {% for mensaje in grupo.list %}
+                            <div class="alert alert-light col-8" role="alert">
+                                <div>
+                                    {{ mensaje.created|date:"d/m/Y H:i" }} :<br>
+                                </div>
+                                <div class="text-end">
+                                    {{ mensaje.texto|linebreaksbr }}
+                                </div>
                             </div>
-                          
-                            <div class="text-end">
-                                {{ mensaje.texto|linebreaksbr }}
-                            </div>
+                        {% endfor %}
                     </div>
                     {% endif %}
+                {% empty %}
+                    <div class="alert alert-warning col-8" role="alert">
+                        No hay mensajes.
+                    </div>
                 {% endfor %}
+
 
                 {% include 'core/bloc_messages.html' %}
 
@@ -78,8 +101,13 @@
                 </form>
                 {% endif %}
 
-
+                {% if origen == "favs" %}
+                <a href="{% url 'core_fav' %}" class="btn btn-outline-primary btn-block btn-sm mt-3">Volver</a>
+                {% elif origen == "mis" %}
+                <a href="{% url 'core_mis' %}" class="btn btn-outline-primary btn-block btn-sm mt-3">Volver</a>
+                {% else %}
                 <a href="{% url 'core_home' %}" class="btn btn-outline-primary btn-block btn-sm mt-3">Volver</a>
+                {% endif %}
             </div>
 
             <div class="card-footer">
