@@ -1,11 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
+from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.utils.decorators import method_decorator
-from .models import Anuncio
+from django.utils.text import slugify
+from .models import Anuncio, Mensaje
 from .forms import AnuncioForm
 
 # Create your views here.
@@ -57,6 +60,17 @@ class AnunciosListView(ListView):
 class AnuncioDetailView(DetailView):
     model = Anuncio
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        anuncio = self.get_object()
+        # Get distinct authors of mensajes for this anuncio
+        context['interesados_usernames'] = list(set(
+            Mensaje.objects.filter(anuncio=anuncio)
+            .values_list('author__username', flat=True)
+        ))
+        return context
+    
+@method_decorator(login_required, name='dispatch')   
 class MisAnunciosListView(ListView):
     model= Anuncio
 
@@ -65,6 +79,15 @@ class MisAnunciosListView(ListView):
         queryset = super().get_queryset()
         queryset = queryset.filter(usuario = self.request.user)
         return queryset
+
+@method_decorator(login_required, name='dispatch')       
+class AnunciosFavoritosListView(ListView):
+    model = Anuncio
+    context_object_name = 'anuncios'
+
+    def get_queryset(self):
+        user = self.request.user
+        return Anuncio.objects.filter(mensajes_anuncio__author=user).distinct()    
 
 @method_decorator(login_required, name='dispatch')    
 class AnuncioCreateView(CreateView):
@@ -77,3 +100,30 @@ class AnuncioCreateView(CreateView):
     def form_valid(self, form):
         form.instance.usuario = self.request.user
         return super().form_valid(form)
+    
+def api_reservar(request):
+    pk_anuncio = request.POST["form_pk_anuncio"]
+    ancio = Anuncio.objects.get(pk=pk_anuncio)
+    msj = request.POST["form_mensaje"]
+
+
+    if not msj or msj.strip() == "":
+        messages.warning(request, "El mensaje no puede estar vacío.")
+        return redirect('core_anuncio', pk=pk_anuncio, page_slug=slugify(ancio.designacion))
+
+    try:
+        com = Mensaje.objects.create(
+            anuncio=ancio,
+            author=request.user,
+            texto=msj
+        )
+        com.save()
+    except (IntegrityError, ValueError):
+        messages.warning(request, "Error al guardar el mensaje.")
+        return redirect('core_anuncio', pk=pk_anuncio, page_slug=slugify(ancio.designacion))
+
+    messages.success(request, "Mensaje guardado correctamente.")
+    return redirect('core_anuncio', pk=pk_anuncio, page_slug=slugify(ancio.designacion))
+
+
+

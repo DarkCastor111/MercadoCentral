@@ -30,8 +30,56 @@
                     <span class="badge text-bg-warning">{{ anuncio.get_estado_display }}</span>
                 </p>
                 <p class="card-text">{{ anuncio.descripcion|linebreaksbr|safe }}</p>
-                <a href="#" class="btn btn-outline-secondary btn-block btn-sm">Reservar</a>
-                <a href="{% url 'core_home' %}" class="btn btn-outline-primary btn-block btn-sm">Volver</a>
+                
+                <p class="card-text"> <span class="badge text-bg-primary">{{ interesados_usernames|length }}</span> Personas interesadas : 
+                    {% if user == anuncio.usuario %}
+                        {% for usrname in interesados_usernames %}
+                            {% if forloop.last %}
+                                {{ usrname }}
+                            {% else %}
+                                {{ usrname }},
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                </p>
+
+                {% for mensaje in anuncio.mensajes_anuncio.all|dictsort:"created" %}
+                    {% if user == anuncio.usuario or user == mensaje.author %}
+                    <div class="alert alert-light" role="alert">
+                            <div class="col-md-6">
+                                {{ mensaje.created }}<br>
+                                <b>{{ mensaje.author }}</b> ({{ mensaje.author.email }}) :
+                            </div>
+                          
+                            <div class="text-end">
+                                {{ mensaje.texto|linebreaksbr }}
+                            </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+
+                {% include 'core/bloc_messages.html' %}
+
+                {% if user != anuncio.usuario %}
+                <form action="{% url 'api_reservar' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_pk_anuncio" value="{{ anuncio.pk }}">
+                    <div class="row">
+                        <div class="col-8">
+                            <textarea name="form_mensaje" cols="40" rows="3" class="form-control" required="" placeholder="Hola, este anuncio me interesa, &#10;Contacta me con whatsApp XXX XXX XXX o por email !"></textarea>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-secondary btn-sm m-1" type="submit">
+                                Guardar <i class="bi bi-arrow-right-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                {% endif %}
+
+
+                <a href="{% url 'core_home' %}" class="btn btn-outline-primary btn-block btn-sm mt-3">Volver</a>
             </div>
 
             <div class="card-footer">

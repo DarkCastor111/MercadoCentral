@@ -67,3 +67,19 @@ class Anuncio(models.Model):
 
     def __str__(self):
         return self.designacion
+    
+class Mensaje(models.Model):
+
+    anuncio = models.ForeignKey(Anuncio, on_delete=models.CASCADE, related_name="mensajes_anuncio")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="mensajes_author")
+    texto = models.TextField(verbose_name="Mensaje")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "mensaje"
+        verbose_name_plural = "mensajes"
+        ordering = ['-created']
+
+    def __str__(self):
+        return f'{self.created.strftime("%d/%m/%Y %H:%M")}'
