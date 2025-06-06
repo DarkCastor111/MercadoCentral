@@ -1,7 +1,7 @@
 {% extends "core/layout.html" %}
 {% load static %}
 
-{% block titulo %}Creación de un Anuncio{% endblock %}
+{% block titulo %}Formulario Anuncio{% endblock %}
 
 {% block navbar %}
 {% include 'core/navbar.html' %}
@@ -13,11 +13,18 @@
     <div class="row mt-3 mb-5">
       <div class="col-md-9 mx-auto">
         <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+          <div class="mb-3">
+            {% if form.instance.foto %}
+              <img src="{{ form.instance.foto.url }}" alt="Foto actual" style="max-width: 200px; max-height: 200px;">
+            {% else %}
+              <img src="{% static 'core/foto_prenda_default.jpg' %}" alt="Foto por defecto" style="max-width: 200px; max-height: 200px;">
+            {% endif %}
+          </div>
           <table>
             {{ form.as_p }}
           </table>
           <div class="text-center">
-            <input type="submit" class="btn btn-primary btn-block" value="Crear Anuncio" />
+            <input type="submit" class="btn btn-primary btn-block" value="Guardar Anuncio" />
           </div>
         </form>
       </div>

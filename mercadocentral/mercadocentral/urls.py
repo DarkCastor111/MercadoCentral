@@ -27,6 +27,7 @@ urlpatterns = [
     path('misanuncios/', views.MisAnunciosListView.as_view(), name='core_mis'),
     path('favoritos/', views.AnunciosFavoritosListView.as_view(), name='core_fav'),
     path('nv_anuncio/', views.AnuncioCreateView.as_view(), name='core_nv_anun' ),
+    path('up_anuncio/<int:pk>/<slug:page_slug>/', views.AnuncioUpdateView.as_view(), name='core_up_anun' ),
     path('reservar/', views.api_reservar, name='api_reservar' ),
     path('admin/', admin.site.urls),
     # Paths de Auth

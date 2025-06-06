@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from PIL import Image
+from io import BytesIO
+from django.core.files.base import ContentFile
+import os
+
+
 # Create your models here.
 
 def custom_upload_to(instancia, nombre_fichero):
@@ -68,6 +74,39 @@ class Anuncio(models.Model):
 
     def __str__(self):
         return self.designacion
+    
+    def save(self, *args, **kwargs):
+        # Save the instance first to get a file path
+        super().save(*args, **kwargs)
+
+        # Tratamiento de la foto
+        if self.foto and self.foto.size > 200000:
+            try:
+                img = Image.open(self.foto.path)
+                nombre_fichero = os.path.splitext(os.path.basename(self.foto.name))[0] + ".jpg"
+
+                # Conversión a RGB (para PNG, etc.)
+                if img.mode != 'RGB':
+                    img = img.convert('RGB')
+                # Resize or compress as needed (optional: resize here)
+                # img = img.resize((desired_width, desired_height))
+
+                # Save to BytesIO as JPEG with 80% quality
+                buffer = BytesIO()
+                img.save(buffer, format='JPEG', quality=80)
+                buffer.seek(0)
+
+                # Replace the original file
+                self.foto.save(
+                    nombre_fichero,
+                    ContentFile(buffer.read()),
+                    save=False
+                )
+                buffer.close()
+                super().save(*args, **kwargs)  # Save again to update the file
+            except Exception as e:
+                # Optionally log the error
+                pass
     
 class Mensaje(models.Model):
 

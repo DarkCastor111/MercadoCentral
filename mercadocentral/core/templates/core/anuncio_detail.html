@@ -107,6 +107,10 @@
                 {% else %}
                 <a href="{% url 'core_home' %}" class="btn btn-outline-primary btn-block btn-sm mt-3">Volver</a>
                 {% endif %}
+
+                {% if user == anuncio.usuario %}
+                <a href="{% url 'core_up_anun' anuncio.id anuncio.designacion|slugify %}" class="btn btn-outline-danger btn-block btn-sm mt-3">Editar...</a>
+                {% endif %}
             </div>
 
             <div class="card-footer">

@@ -5,7 +5,7 @@ class AnuncioForm(forms.ModelForm):
 
     class Meta:
         model = Anuncio
-        fields = ['designacion', 'foto', 'descripcion', 'genero', 'estado', 'prenda', 'talla']
+        fields = ['foto', 'designacion', 'descripcion', 'genero', 'estado', 'prenda', 'talla']
         widgets = {
             'designacion': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Titulo'}),
             'foto' : forms.ClearableFileInput(attrs={'class':'form-control-file mt-3'}),

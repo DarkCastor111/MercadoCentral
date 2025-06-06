@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
@@ -119,6 +119,14 @@ class AnuncioCreateView(CreateView):
     def form_valid(self, form):
         form.instance.usuario = self.request.user
         return super().form_valid(form)
+
+@method_decorator(login_required, name='dispatch')    
+class AnuncioUpdateView(UpdateView):
+    model = Anuncio
+    form_class = AnuncioForm
+    template_name = 'core/anuncio_form.html'
+    success_url = reverse_lazy('core_mis')
+
     
 def api_reservar(request):
     pk_anuncio = request.POST["form_pk_anuncio"]
