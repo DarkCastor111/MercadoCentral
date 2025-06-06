@@ -82,9 +82,8 @@ class MisAnunciosListView(ListView):
     model= Anuncio
 
     def get_queryset(self):
-
         queryset = super().get_queryset()
-        queryset = queryset.filter(usuario = self.request.user)
+        queryset = queryset.filter(usuario = self.request.user).order_by('-updated')
         return queryset
     
     def get_context_data(self, **kwargs):
@@ -132,6 +131,9 @@ def api_reservar(request):
         return redirect('core_anuncio', pk=pk_anuncio, page_slug=slugify(ancio.designacion))
 
     try:
+        ancio.mensajes += 1
+        ancio.save()
+        
         com = Mensaje.objects.create(
             anuncio=ancio,
             author=request.user,

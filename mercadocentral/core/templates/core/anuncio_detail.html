@@ -21,6 +21,7 @@
         <div class="col-md-8">
             <h5 class="card-title">{{ anuncio.designacion }}</h5>
             <div class="card-body">
+                {% include 'core/bloc_messages.html' %}
                 <p class="card-text">
                     <span class="badge text-bg-primary">{{ anuncio.get_prenda_display }}</span>
                     <span class="badge text-bg-primary">{{ anuncio.get_genero_display }}</span>
@@ -66,7 +67,7 @@
                         {% for mensaje in grupo.list %}
                             <div class="alert alert-light col-8" role="alert">
                                 <div>
-                                    {{ mensaje.created|date:"d/m/Y H:i" }} :<br>
+                                    El {{ mensaje.created|date:"d/m/Y" }} a las {{ mensaje.created|date:"H:i" }} :<br>
                                 </div>
                                 <div class="text-end">
                                     {{ mensaje.texto|linebreaksbr }}
@@ -76,13 +77,11 @@
                     </div>
                     {% endif %}
                 {% empty %}
-                    <div class="alert alert-warning col-8" role="alert">
-                        No hay mensajes.
-                    </div>
+                    <h6> No hay mensajes.</h6>
                 {% endfor %}
 
 
-                {% include 'core/bloc_messages.html' %}
+
 
                 {% if user != anuncio.usuario %}
                 <form action="{% url 'api_reservar' %}" method="post">

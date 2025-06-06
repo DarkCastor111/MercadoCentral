@@ -32,6 +32,17 @@
 
 
                     <p class="card-text">{{ anuncio.descripcion|linebreaksbr|safe|truncatewords:9 }}</p>
+
+                    <p class="card-text">
+                        {% if anuncio.mensajes == 0 %}
+                        <h6> No hay mensajes.</h6>
+                        {% elif anuncio.mensajes == 1 %}
+                        <h6><span class="badge text-bg-warning">{{ anuncio.mensajes }}</span> Mensaje</h6>
+                        {% else %}
+                        <h6><span class="badge text-bg-warning">{{ anuncio.mensajes }}</span> Mensajes</h6>
+                        {% endif %}
+                    </p>
+
                 
                     {% if origen == "favs" %}
                     <a href="{% url 'core_anuncio' anuncio.id anuncio.designacion|slugify %}?origen=favs" class="btn btn-outline-primary btn-block btn-sm">Detalle...</a>

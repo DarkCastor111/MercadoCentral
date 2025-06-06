@@ -57,6 +57,7 @@ class Anuncio(models.Model):
     talla = models.SmallIntegerField(null=True)
     foto = models.ImageField(upload_to=custom_upload_to, null=True, blank=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    mensajes = models.SmallIntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
