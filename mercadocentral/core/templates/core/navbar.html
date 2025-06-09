@@ -1,3 +1,5 @@
+{% load static %}
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'core_home' %}">Anuncios</a>
@@ -6,55 +8,87 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
             {% with current_prenda=request.session.prenda current_genero=request.session.genero %}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Prenda
-                        {% if not current_prenda or current_prenda == 'PRD_ALL' %}: Todas
-                        {% elif current_prenda == 'PRD_UN' %}: Todos Uniformes
-                        {% elif current_prenda == 'PRD_UN_PAN' %}: Pantalón Uniforme
-                        {% elif current_prenda == 'PRD_UN_SUE' %}: Suéter Uniforme
-                        {% elif current_prenda == 'PRD_UN_FAL' %}: Falda Uniforme
-                        {% elif current_prenda == 'PRD_UN_POL' %}: Polo Uniforme
-                        {% elif current_prenda == 'PRD_DP' %}: Todos Deportes
-                        {% elif current_prenda == 'PRD_DP_PAN' %}: Pantalón Deportes
-                        {% elif current_prenda == 'PRD_DP_BER' %}: Bermuda Deportes
-                        {% elif current_prenda == 'PRD_DP_POL' %}: Polo Deportes
-                        {% elif current_prenda == 'PRD_DP_CHQ' %}: Chaqueta Deportes
-                        {% elif current_prenda == 'PRD_DP_CHD' %}: Chandal completo Deportes
+                        Tipo Prenda
+                        {% if not current_prenda or current_prenda == 'PRD_ALL' %}: No Definido
+                        {% elif current_prenda == 'PRD_POL' %}: Polo
+                        {% elif current_prenda == 'PRD_JER' %}: Jersey
+                        {% elif current_prenda == 'PRD_FAL' %}: Falda
+                        {% elif current_prenda == 'PRD_PAN' %}: Pantalón
+                        {% elif current_prenda == 'PRD_CHD' %}: Chandal
+                        {% elif current_prenda == 'PRD_BER' %}: Bermuda
+                        {% elif current_prenda == 'PRD_BAB' %}: Babi
                         {% endif %}
 
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_ALL">Todos</a></li>
+                        <li>
+                            <div class="dropdown-item">
+                                <a href="{% url 'core_home' %}?prenda=PRD_ALL">
+                                    <img class="img-thumbnail border border-2 border-primary-subtle" src="{% static 'core/foto_prenda_default.jpg' %}" title="Multi" alt="Foto por defecto"
+                                        style="max-width: 60px; max-height: 60px;">
+                                </a>
+                            </div>
+                        </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_UN">Todos Uniformes</a></li>
+                        <li>
+                            <div class="dropdown-item">
+                                <a href="{% url 'core_home' %}?prenda=PRD_POL">
+                                    <img class="img-thumbnail border border-2 border-primary-subtle" src="{% static 'core/mn_polo.png' %}" title="Polo, blanco o rojo" alt="Menu Polo"
+                                        style="max-width: 60px; max-height: 60px;">
+                                </a>
+                                <a href="{% url 'core_home' %}?prenda=PRD_JER">
+                                    <img class="img-thumbnail border border-2 border-primary-subtle" src="{% static 'core/mn_jersey.png' %}" title="Jersey" alt="Menu Jersey"
+                                        style="max-width: 60px; max-height: 60px;">
+                                </a>
+                                <a href="{% url 'core_home' %}?prenda=PRD_FAL">
+                                    <img class="img-thumbnail border border-2 border-primary-subtle" src="{% static 'core/mn_falda.png' %}" title="Falda" alt="Menu Falda"
+                                        style="max-width: 60px; max-height: 60px;">
+                                </a>
+                                <a href="{% url 'core_home' %}?prenda=PRD_PAN">
+                                    <img class="img-thumbnail border border-2 border-primary-subtle" src="{% static 'core/mn_pantalon.png' %}" title="Pantalón, largo o corto" alt="Menu Pantalón"
+                                        style="max-width: 60px; max-height: 60px;">
+                                </a>
+                            </div>
+                        </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_UN_PAN">Pantalón</a></li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_UN_SUE">Suéter</a></li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_UN_FAL">Falda</a></li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_UN_POL">Polo</a></li>
+                        <li>
+                            <div class="dropdown-item">
+                                <a  href="{% url 'core_home' %}?prenda=PRD_CHD">
+                                    <img class="img-thumbnail border border-2 border-primary-subtle" src="{% static 'core/mn_chandal.png' %}" title="Chandál" alt="Menu Chandál"
+                                    style="max-width: 60px; max-height: 60px;">
+                                </a>
+                                <a  href="{% url 'core_home' %}?prenda=PRD_BER">
+                                    <img class="img-thumbnail border border-2 border-primary-subtle" src="{% static 'core/mn_bermuda.png' %}" title="Bermuda" alt="Menu Bermuda"
+                                    style="max-width: 60px; max-height: 60px;">
+                                </a>
+                            </div>
+                        </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP">Todos Deportes</a></li>
                         <li>
-                            <hr class="dropdown-divider">
+                            <div class="dropdown-item">
+
+                                <a href="{% url 'core_home' %}?prenda=PRD_BAB">
+                                    <img class="img-thumbnail border border-2 border-primary-subtle" src="{% static 'core/mn_babi.png' %}" title="Babi" alt="Menu Babi"
+                                    style="max-width: 60px; max-height: 60px;">
+                                </a>
+                            </div>
                         </li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_PAN">Pantalón</a></li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_BER">Bermuda</a></li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_POL">Polo</a></li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_CHQ">Chaqueta</a></li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=PRD_DP_CHD">Chandal Completo</a>
-                        </li>
+
                     </ul>
                 </li>
+                <!--
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -80,7 +114,6 @@
                             class="bi bi-x-square-fill text-danger"></i> Resetar</a>
                 </li>
 
-                <!--
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">

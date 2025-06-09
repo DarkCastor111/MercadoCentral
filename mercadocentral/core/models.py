@@ -22,24 +22,18 @@ class Anuncio(models.Model):
     ]
 
     TIPO_PRENDA = [
-        ("PRD_NIN", "Ninguno"),
-        ("PRD_ALL", "Todas"),
-        ("PRD_UN", "Todos Uniformes"),
-        ("PRD_UN_PAN", "Pantalón Uniforme"),
-        ("PRD_UN_SUE", "Suéter Uniforme"),
-        ("PRD_UN_FAL", "Falda Uniforme"),
-        ("PRD_UN_POL", "Polo Uniforme"),
-        ("PRD_DP", "Todos Deportes"),
-        ("PRD_DP_PAN", "Pantalón Deportes"),
-        ("PRD_DP_BER", "Bermuda Deportes"),
-        ("PRD_DP_POL", "Polo Deportes"),
-        ("PRD_DP_CHQ", "Chaqueta Deportes"),
-        ("PRD_DP_CHD", "Chandal completo Deportes")
+        ("PRD_ALL", "Multi"),
+        ("PRD_POL", "Polo"),
+        ("PRD_JER", "Jersey"),
+        ("PRD_FAL", "Falda"),
+        ("PRD_PAN", "Pantalón"),
+        ("PRD_CHD", "Chandal"),
+        ("PRD_BER", "Bermuda"),
+        ("PRD_BAB", "Babi"),
     ]
 
     ESTADO = [
-        ("EST_ALL", "Todos"),
-        ("EST_NIN", "No precisado"),
+        ("EST_ALL", "No precisado"),
         ("EST_NUEVO", "Nuevo"),
         ("EST_COMNUE", "Como nuevo"),
         ("EST_PRIM", "Primera mano"),
@@ -53,14 +47,42 @@ class Anuncio(models.Model):
         ("GEN_NA", "Niña"),
     ]   
 
+    MATERIA = [
+        ("MAT_ALL", "Todos"),
+        ("MAT_MZ", "Mezcla"),
+        ("MAT_AG", "100% Algodon o Lana"),
+        ("MAT_SY", "100% Syntetico"),
+    ]
+
+    TALLA = [
+        ("74", "00"),
+        ("78", "0"),
+        ("82", "1"),
+        ("98", "2"),
+        ("108", "4"),
+        ("118", "6"),
+        ("128", "8"),
+        ("140", "10"),
+        ("152", "12"),
+        ("164", "14"),
+        ("170", "16 / S / 2A"),
+        ("178", "18 / M / 3A"),
+        ("184", "20 / L / 4A"),
+        ("188", "22 / XL / 5A"),
+        ("192", "24 / XXL / 6A"),
+    ]
+  
+
+
 
     designacion = models.CharField(verbose_name="Designación", max_length=200)
     descripcion = models.TextField(verbose_name="Descripción")
-    escuela = models.CharField(max_length=64, choices=ESCUELA, null=True)
-    genero = models.CharField(max_length=64, choices=GENERO, null=True)
-    estado = models.CharField(max_length=64, choices=ESTADO, null=True)
-    prenda = models.CharField(max_length=64, choices=TIPO_PRENDA, null=True)
-    talla = models.SmallIntegerField(null=True)
+    escuela = models.CharField(max_length=64, choices=ESCUELA, null=True, blank=True)
+    genero = models.CharField(max_length=64, choices=GENERO, null=True, blank=True)
+    estado = models.CharField(max_length=64, choices=ESTADO, null=True, blank=True)
+    prenda = models.CharField(max_length=64, choices=TIPO_PRENDA)
+    materia = models.CharField(max_length=64, choices=MATERIA, null=True, blank=True)
+    talla = models.CharField(max_length=64, choices=TALLA)
     foto = models.ImageField(upload_to=custom_upload_to, null=True, blank=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     mensajes = models.SmallIntegerField(default=0)

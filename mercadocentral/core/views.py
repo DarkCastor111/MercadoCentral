@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.utils.decorators import method_decorator
 from django.utils.text import slugify
 from .models import Anuncio, Mensaje
@@ -121,11 +122,15 @@ class AnuncioCreateView(CreateView):
         return super().form_valid(form)
 
 @method_decorator(login_required, name='dispatch')    
-class AnuncioUpdateView(UpdateView):
+class AnuncioUpdateView( UserPassesTestMixin, UpdateView):
     model = Anuncio
     form_class = AnuncioForm
     template_name = 'core/anuncio_form.html'
     success_url = reverse_lazy('core_mis')
+
+    def test_func(self):
+        anuncio = self.get_object()
+        return self.request.user == anuncio.usuario or self.request.user.is_superuser # type: ignore
 
     
 def api_reservar(request):
