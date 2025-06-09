@@ -55,6 +55,7 @@ class Anuncio(models.Model):
     ]
 
     TALLA = [
+        ("TAL_ALL", "No precisado"),
         ("74", "00"),
         ("78", "0"),
         ("82", "1"),
@@ -78,7 +79,7 @@ class Anuncio(models.Model):
     designacion = models.CharField(verbose_name="Designación", max_length=200)
     descripcion = models.TextField(verbose_name="Descripción")
     escuela = models.CharField(max_length=64, choices=ESCUELA, null=True, blank=True)
-    genero = models.CharField(max_length=64, choices=GENERO, null=True, blank=True)
+    # genero = models.CharField(max_length=64, choices=GENERO, null=True, blank=True)
     estado = models.CharField(max_length=64, choices=ESTADO, null=True, blank=True)
     prenda = models.CharField(max_length=64, choices=TIPO_PRENDA)
     materia = models.CharField(max_length=64, choices=MATERIA, null=True, blank=True)

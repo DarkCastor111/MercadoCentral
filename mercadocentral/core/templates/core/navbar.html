@@ -9,7 +9,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-            {% with current_prenda=request.session.prenda current_genero=request.session.genero %}
+            {% with current_prenda=request.session.prenda current_talla=request.session.talla %}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -88,32 +88,56 @@
 
                     </ul>
                 </li>
-                <!--
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Niño / Niña
-                        {% if not current_genero or current_genero == 'GEN_ALL' %}: Todos
-                        {% elif current_genero == 'GEN_MX' %}: Mixto
-                        {% elif current_genero == 'GEN_NO' %}: Niños
-                        {% elif current_genero == 'GEN_NA' %}: Niñas
-                        {% endif %}
+                    aria-expanded="false">
+                    Talla
+                    {% if not current_talla or current_talla == 'TAL_ALL' %}: No definida
+                    {% elif current_talla == '74' %}: 00
+                    {% elif current_talla == '78' %}: 0
+                    {% elif current_talla == '82' %}: 1
+                    {% elif current_talla == '98' %}: 2
+                    {% elif current_talla == '108' %}: 4
+                    {% elif current_talla == '118' %}: 6
+                    {% elif current_talla == '128' %}: 8
+                    {% elif current_talla == '140' %}: 10
+                    {% elif current_talla == '152' %}: 12
+                    {% elif current_talla == '164' %}: 14
+                    {% elif current_talla == '170' %}: 16 / S / 2A
+                    {% elif current_talla == '178' %}: 18 / M / 3A
+                    {% elif current_talla == '184' %}: 20 / L / 4A
+                    {% elif current_talla == '188' %}: 22 / XL / 5A
+                    {% elif current_talla == '192' %}: 24 / XXL / 6A
+                    {% endif %}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?genero=GEN_ALL">Todos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=TAL_ALL">Todas</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?genero=GEN_MX">Mixto</a></li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?genero=GEN_NO">Niño</a></li>
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?genero=GEN_NA">Niña</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=74">00</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=78">0</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=82">1</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=98">2</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=108">4</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=118">6</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=128">8</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=140">10</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=152">12</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=164">14</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=170">16 / S / 2A</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=178">18 / M / 3A</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=184">20 / L / 4A</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=188">22 / XL / 5A</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=192">24 / XXL / 6A</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core_home' %}?genero=GEN_ALL&prenda=PRD_ALL"><i
-                            class="bi bi-x-square-fill text-danger"></i> Resetar</a>
+                    <a class="nav-link" href="{% url 'core_home' %}?talla=TAL_ALL&prenda=PRD_ALL"><i
+                        class="bi bi-x-square-fill text-danger"></i> Resetar</a>
                 </li>
 
+                    <!--
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">

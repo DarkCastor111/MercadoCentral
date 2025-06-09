@@ -20,6 +20,7 @@ def home(request):
 
 class AnunciosListView(ListView):
     model = Anuncio
+    paginate_by = 8
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -30,14 +31,8 @@ class AnunciosListView(ListView):
     def get_queryset(self):
 
         queryset = super().get_queryset()
-        get_gen = self.request.GET.get('genero')
+        get_tal = self.request.GET.get('talla')
         get_pre = self.request.GET.get('prenda')
-
-        if get_gen:
-            filtro_gen = get_gen
-            self.request.session['genero'] = get_gen
-        else:
-            filtro_gen = self.request.session.get('genero', "GEN_ALL")
 
         if get_pre:
             filtro_pre = get_pre
@@ -45,21 +40,21 @@ class AnunciosListView(ListView):
         else:
             filtro_pre = self.request.session.get('prenda', "PRD_ALL")
 
-        if (filtro_gen != "GEN_ALL"):
-            if (filtro_gen == "GEN_MX"):
-                valores = [filtro_gen, "GEN_NO", "GEN_NA"]
-            else:
-                valores = [filtro_gen, "GEN_MX"]
-            queryset = queryset.filter(genero__in=valores)
+        if get_tal:
+            filtro_tal = get_tal
+            self.request.session['talla'] = get_tal
+        else:
+            filtro_tal = self.request.session.get('talla', "")
+
+
+        if (filtro_tal != "TAL_ALL"):
+            queryset = queryset.filter(talla=filtro_tal)
+            # queryset = queryset.filter(talla__in=valores)
+
 
         if (filtro_pre != "PRD_ALL"):
-            if (filtro_pre == "PRD_UN"):
-                valores=["PRD_UN_PAN", "PRD_UN_SUE", "PRD_UN_FAL", "PRD_UN_POL", "PRD_NIN"]
-            elif (filtro_pre == "PRD_DP"):
-                valores=["PRD_DP_PAN", "PRD_DP_BER", "PRD_DP_POL", "PRD_DP_CHQ", "PRD_DP_CHD", "PRD_NIN"]
-            else:
-                valores=[filtro_pre, "PRD_NIN"]
-            queryset = queryset.filter(prenda__in=valores)
+            queryset = queryset.filter(prenda=filtro_pre)
+
 
         return queryset
 
@@ -120,6 +115,8 @@ class AnuncioCreateView(CreateView):
     def form_valid(self, form):
         form.instance.usuario = self.request.user
         return super().form_valid(form)
+    
+
 
 @method_decorator(login_required, name='dispatch')    
 class AnuncioUpdateView( UserPassesTestMixin, UpdateView):

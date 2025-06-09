@@ -24,12 +24,18 @@
                 {% include 'core/bloc_messages.html' %}
                 <p class="card-text">
                     <span class="badge text-bg-primary">{{ anuncio.get_prenda_display }}</span>
-                    <span class="badge text-bg-primary">{{ anuncio.get_genero_display }}</span>
-                    <span class="badge text-bg-primary">{{ anuncio.talla }}</span>
+                    <span class="badge text-bg-primary">{{ anuncio.get_talla_display }}</span>
                 </p>
+                {% if anuncio.materia %}
+                <p class="card-text">
+                    <span class="badge text-bg-success">{{ anuncio.get_materia_display }}</span>
+                </p>
+                {% endif %}
+                {% if anuncio.estado %}
                 <p class="card-text">
                     <span class="badge text-bg-warning">{{ anuncio.get_estado_display }}</span>
                 </p>
+                {% endif %}
                 <p class="card-text">{{ anuncio.descripcion|linebreaksbr|safe }}</p>
                 
                 <p class="card-text"> 
