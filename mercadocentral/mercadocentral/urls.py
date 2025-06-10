@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from core import views
 from usuarios.urls import usuarios_patterns
+from footer.urls import footer_patterns
 from django.conf import settings
 
 urlpatterns = [
@@ -32,6 +33,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Paths de Auth
     path('usuarios/', include(usuarios_patterns)),
+    # Path de footer
+    path('footer/', include(footer_patterns)),
     # Temporal
     path('django_auth_urls/', include('django.contrib.auth.urls')),
 

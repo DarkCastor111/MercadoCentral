@@ -9,11 +9,14 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     </head>
-    <body class="p-3">
-        <div class="alert alert-primary" role="alert">
-            <h1>Mi Mercado CHI</h1>
-            <h2>Una manera ecológica y económica de encontrar ropa escolar</h2>
-        </div>
+    <body class="p-3 container">
+        <a href="{% url 'core_home' %}">
+
+            <div class="alert alert-primary" role="alert">
+                <h1>Mi Mercado CHI</h1>
+                <h2>Una manera ecológica y económica de encontrar ropa escolar</h2>
+            </div>
+        </a>
 
         <h1>{% block titulo %} Inicio {% endblock %}</h1>
         
@@ -26,4 +29,67 @@
         {% block contenido %}
         {% endblock %}
     </body>
+    <footer class="container">
+        <div class="row">
+            <a class="col-md-3 col-6" href="{% url 'footer_detail' %}#privacidad"> Normas de uso del sitio </a>
+            <a class="col-md-3 col-6" href="{% url 'footer_detail' %}#tallas"> Correspondencia de Tallas </a>
+            <a class="col-md-3 col-6" href="{% url 'footer_detail' %}#anuncio"> Redactar un buen anuncio </a>
+            <a class="col-md-3 col-6" href="{% url 'footer_detail' %}#contacto"> Contacto </a>
+        </div>
+        <div class="row mt-3">
+            <div class="col-6">
+                Compartir: 
+                <a id="share-link" href="#" title="Compartir">
+                        <i class="bi bi-share fs-4"></i>
+                </a>
+            </div>
+            <div class="col-6">
+                Acceso directo: 
+                <a id="enlace-link" href="#" title="Acceso directo">
+                        <i class="bi bi-box-arrow-up-right fs-4"></i>
+                </a>
+            </div>
+
+        </div>
+    </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var enlaceLink = document.getElementById('enlace-link');
+        if (enlaceLink) {
+            enlaceLink.addEventListener('click', function (e) {
+                    alert('Para crear un acceso directo, usa el menú de tu navegador (Agregar a pantalla de inicio).');
+
+            });
+        }
+    });
+    // Detecta si es móvil y ajusta el enlace de compartir
+    document.addEventListener('DOMContentLoaded', function () {
+        var shareLink = document.getElementById('share-link');
+        var pageUrl = encodeURIComponent(window.location.href);
+        var pageText = encodeURIComponent("¡Mira este sitio!");
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            // WhatsApp para móviles
+            shareLink.href = "https://wa.me/?text=" + pageText + "%20" + pageUrl;
+        } else if (navigator.share) {
+            // API de compartir nativa
+            shareLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                navigator.share({
+                    title: document.title,
+                    text: "¡Mira este sitio!",
+                    url: window.location.href
+                });
+            });
+        } else {
+            // Copiar enlace para escritorio
+            shareLink.href = pageUrl;
+            shareLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                navigator.clipboard.writeText(window.location.href);
+                alert('Enlace copiado al portapapeles');
+            });
+        }
+    });
+</script>
 </html>
