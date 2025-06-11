@@ -30,6 +30,7 @@ urlpatterns = [
     path('nv_anuncio/', views.AnuncioCreateView.as_view(), name='core_nv_anun' ),
     path('up_anuncio/<int:pk>/<slug:page_slug>/', views.AnuncioUpdateView.as_view(), name='core_up_anun' ),
     path('reservar/', views.api_reservar, name='api_reservar' ),
+    path('desactivar/<int:pk_an>/', views.api_desactivar, name='api_desactivar' ),
     path('admin/', admin.site.urls),
     # Paths de Auth
     path('usuarios/', include(usuarios_patterns)),

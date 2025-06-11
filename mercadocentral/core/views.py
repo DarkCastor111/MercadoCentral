@@ -30,7 +30,7 @@ class AnunciosListView(ListView):
 
     def get_queryset(self):
 
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().filter(activo=True)
         get_tal = self.request.GET.get('talla')
         get_pre = self.request.GET.get('prenda')
 
@@ -78,7 +78,7 @@ class MisAnunciosListView(ListView):
     model= Anuncio
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().filter(activo=True)
         queryset = queryset.filter(usuario = self.request.user).order_by('-updated')
         return queryset
     
@@ -93,7 +93,7 @@ class AnunciosFavoritosListView(ListView):
     model = Anuncio
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().filter(activo=True)
         user = self.request.user
         queryset = queryset.filter(mensajes_anuncio__author=user).distinct()
         return queryset
@@ -157,5 +157,21 @@ def api_reservar(request):
     messages.success(request, "Mensaje guardado correctamente.")
     return redirect('core_anuncio', pk=pk_anuncio, page_slug=slugify(ancio.designacion))
 
+def api_desactivar(request, pk_an):
+    if not pk_an:
+        messages.error(request, "No se ha especificado el anuncio a desactivar.")
+        return redirect('core_mis')
 
+    try:
+        anuncio = Anuncio.objects.get(pk=pk_an)
+        if request.user == anuncio.usuario or request.user.is_superuser:
+            anuncio.activo = False
+            anuncio.save()
+            messages.success(request, "El anuncio ha sido desactivado correctamente.")
+        else:
+            messages.error(request, "No tienes permiso para desactivar este anuncio.")
+    except Anuncio.DoesNotExist:
+        messages.error(request, "El anuncio no existe.")
+
+    return redirect('core_mis')
 
