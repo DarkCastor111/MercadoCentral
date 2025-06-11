@@ -171,7 +171,7 @@
             <ul class="d-flex navbar-nav mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
                 <li>
-                    <a class="nav-link">Hola, <strong>{{ user.username }}</strong>. </a>
+                    <a class="nav-link" href="{% url 'usu_perso' %}">Hola, <strong>{{ user.username }}</strong>. </a>
                 </li>
                 <li>
                     <form id="logout-form" method="post" action="{% url 'logout' %}">

@@ -36,18 +36,15 @@
             <label for="id_email">Correo electrónico:</label>
             <input type="email" class="form-control" name="email" value="{{ user.email }}" maxlength="254" id="id_email">
           </p>
-          <p>
-            <label>Contraseña:</label>
-            <a class="button" href="{% url 'password_change' %}">Cambiar contraseña</a>
-          <span class="helptext" id="id_password_helptext">(Las contraseñas en texto plano no se almacenan, por lo que no
-            se puede ver la contraseña del usuario.)</span>
-
-
-
-
-          </p>
           <p><input type="submit" class="btn btn-primary btn-block" value="Actualizar"></p>
         </form>
+        <p>
+          <label>Contraseña:</label>
+          <span class="helptext" id="id_password_helptext">(Las contraseñas en texto plano no se almacenan, por lo que no
+          se puede ver la contraseña del usuario.)</span>
+          <a class="button" href="{% url 'password_change' %}">Cambiar contraseña</a>
+        </p>
+
       </div>
     </div>
   </div>
