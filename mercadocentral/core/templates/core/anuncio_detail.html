@@ -86,20 +86,17 @@
                     <h6> No hay mensajes.</h6>
                 {% endfor %}
 
-
-
-
                 {% if user != anuncio.usuario %}
                 <form action="{% url 'api_reservar' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="form_pk_anuncio" value="{{ anuncio.pk }}">
                     <div class="row">
-                        <div class="col-8">
-                            <textarea name="form_mensaje" cols="40" rows="3" class="form-control" required="" placeholder="Hola, este anuncio me interesa, &#10;Contacta me con whatsApp XXX XXX XXX o por email !"></textarea>
+                        <div class="col-8 pe-0">
+                            <textarea name="form_mensaje" cols="40" rows="3" class="form-control" required="" placeholder="Mi mensaje"></textarea>
                         </div>
                         <div class="col-4">
                             <button class="btn btn-secondary btn-sm m-1" type="submit">
-                                Guardar <i class="bi bi-arrow-right-circle"></i>
+                                Enviar Mensaje <i class="bi bi-arrow-right-circle"></i>
                             </button>
                         </div>
                     </div>

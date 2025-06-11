@@ -44,7 +44,7 @@ class AnunciosListView(ListView):
             filtro_tal = get_tal
             self.request.session['talla'] = get_tal
         else:
-            filtro_tal = self.request.session.get('talla', "")
+            filtro_tal = self.request.session.get('talla', "TAL_ALL")
 
 
         if (filtro_tal != "TAL_ALL"):
