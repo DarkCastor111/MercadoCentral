@@ -2,14 +2,51 @@
 {% load static %}
 {% block titulo %}Perfil{% endblock %}
 {% block contenido %}
+<style>.errorlist{color:red;}</style>
 <main role="main">
   <div class="container">
     <div class="row mt-3 mb-5">
       <div class="col-md-9 mx-auto">
-        <h3>Perfil</h3>
+        {% if 'changed' in request.GET %}
+          <div class="alert alert-success" role="alert">Perfil guardado</div>
+        {% endif %}
+          <h3>Modificar su Perfil: </h3>
         <form action="" method="post">{% csrf_token %}
-        {{ form.as_p }}
-        <p><input type="submit" class="btn btn-primary btn-block" value="Actualizar"></p>
+
+          <p>
+
+            {% if form.username.errors %}
+              <div class="alert alert-danger pb-0" role="alert">{{form.username.errors}}</div>
+            {% endif %}
+            <label for="id_username">Nombre de usuario:</label>
+            <input type="text" class="form-control" name="username" value="{{ user.username }}" maxlength="150" required
+              aria-describedby="id_username_helptext" id="id_username">
+
+            <span class="helptext" id="id_username_helptext">
+              Requerido. 150 carácteres como máximo. 
+              <br> Únicamente letras, dígitos y @/./+/-/_ 
+            </span>
+          </p>
+
+          <p>
+            {% if form.email.errors %}
+              <div class="alert alert-danger pb-0" role="alert">{{form.email.errors}}</div>
+            {% endif %}
+
+            <label for="id_email">Correo electrónico:</label>
+            <input type="email" class="form-control" name="email" value="{{ user.email }}" maxlength="254" id="id_email">
+          </p>
+          <p>
+            <label>Contraseña:</label>
+            <a class="button" href="{% url 'password_change' %}">Cambiar contraseña</a>
+          <span class="helptext" id="id_password_helptext">(Las contraseñas en texto plano no se almacenan, por lo que no
+            se puede ver la contraseña del usuario.)</span>
+
+
+
+
+          </p>
+          <p><input type="submit" class="btn btn-primary btn-block" value="Actualizar"></p>
         </form>
       </div>
     </div>

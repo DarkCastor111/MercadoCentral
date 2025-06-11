@@ -33,10 +33,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Paths de Auth
     path('usuarios/', include(usuarios_patterns)),
+    # path('usuarios/', include('django.contrib.auth.urls')),
     # Path de footer
     path('footer/', include(footer_patterns)),
     # Temporal
-    path('django_auth_urls/', include('django.contrib.auth.urls')),
 
 ]
 
