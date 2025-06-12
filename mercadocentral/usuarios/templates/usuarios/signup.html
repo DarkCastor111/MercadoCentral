@@ -2,10 +2,7 @@
 {% load static %}
 {% block titulo %}Registrarse{% endblock %}
 {% block contenido %}
-<style>
-  .errorlist {
-    color: red;
-  }
+
 </style>
 <main role="main">
   <div class="container">
@@ -25,6 +22,9 @@
           </ul>
           {% endif %}
           <p>
+            {% if form.username.errors %}
+              <div class="alert alert-danger pb-0" role="alert">{{form.username.errors}}</div>
+            {% endif %}
             <label for="id_username">Nombre de usuario:</label>
             <input type="text" class="form-control" name="username" maxlength="150" autofocus required
               aria-describedby="id_username_helptext" id="id_username">
@@ -34,12 +34,21 @@
           </p>
 
           <p>
+            {% if form.email.errors %}
+              <div class="alert alert-danger pb-0" role="alert">{{form.email.errors}}</div>
+            {% endif %}
             <label for="id_email">Correo electrónico:</label>
             <input type="email" class="form-control" name="email" maxlength="254" id="id_email">
           </p>
 
 
           <p>
+            {% if form.password1.errors %}
+              <div class="alert alert-danger pb-0" role="alert">{{form.password1.errors}}</div>
+            {% endif %}
+            {% if form.password2.errors %}
+              <div class="alert alert-danger pb-0" role="alert">{{form.password2.errors}}</div>
+            {% endif %}
             <label for="id_password">Contraseña:</label>
             <input type="password" class="form-control" name="password1" autocomplete="new-password" required
               aria-describedby="id_password1_helptext" id="id_password1">
@@ -53,8 +62,6 @@
               </ul>
             </span>
           </p>
-
-
           <p>
             <label for="id_password2">Contraseña (confirmación):</label>
             <input type="password" class="form-control" name="password2" autocomplete="new-password" required

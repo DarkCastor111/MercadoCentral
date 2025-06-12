@@ -12,7 +12,14 @@ class AltaView(CreateView):
     template_name = 'usuarios/signup.html'
 
     def get_success_url(self):
-        return reverse_lazy('usu_login') + '?register'
+        return reverse_lazy('login') + '?register'
+    
+    def form_valid(self, form):
+        new_email = form.cleaned_data.get('email')
+        if User.objects.filter(email=new_email).exists():
+            form.add_error('email', 'Ya existe un usuario con este email.')
+            return self.form_invalid(form)
+        return super().form_valid(form)
     
 class UserChangeView(UpdateView):
     model = User
@@ -29,6 +36,13 @@ class UserChangeView(UpdateView):
             from django.core.exceptions import PermissionDenied
             raise PermissionDenied("User must be authenticated")
         return user
+    
+    def form_valid(self, form):
+        new_email = form.cleaned_data.get('email')
+        if User.objects.filter(email=new_email).exists():
+            form.add_error('email', 'Ya existe un usuario con este email.')
+            return self.form_invalid(form)
+        return super().form_valid(form)
 
 
 
