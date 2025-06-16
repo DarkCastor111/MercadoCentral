@@ -21,8 +21,11 @@ def footer_detail_view(request):
                     recipient_list=['dragosoftcanarias@gmail.com'],
                 )
                 messages.success(request, "¡Tu mensaje ha sido enviado correctamente!")
-            except Exception:
-                messages.warning(request, "Ocurrió un error al enviar el mensaje.")
+            except Exception as e :
+                txt_msg = 'Ocurrió un error al enviar el mensaje.'
+                if settings.DEBUG:
+                    txt_msg += f'{type(e).__name__} -> {str(e)}'
+                messages.warning(request, txt_msg)
         else:
             messages.warning(request, "Ocurrió un error al validar el formulario.")
         return redirect(reverse_lazy('footer_detail') + "#contacto")
