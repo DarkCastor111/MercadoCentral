@@ -133,10 +133,19 @@ LOGOUT_REDIRECT_URL = '/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Configuracion de servidor emails de prueba
+
+
 if DEBUG:
-    EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-    EMAIL_FILE_PATH = BASE_DIR / 'emails_sents'
+    # EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+    # EMAIL_FILE_PATH = BASE_DIR / 'emails_sents'
+    # Looking to send emails in production? Check out our Email API/SMTP product!
+    EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+    EMAIL_HOST_USER = 'a21a57a89a651c'
+    EMAIL_HOST_PASSWORD = '5d563c90fd779f'
+    EMAIL_PORT = '2525'
+    EMAIL_USE_TLS = True
+    DEFAULT_FROM_EMAIL = 'noreply@dragosoftcanarias.com'
 else:
-    # Configurar email para producción 
+    # Configurar email para producción 3654d0a962e7fd779d2c1037b4c8b22f
     pass
+

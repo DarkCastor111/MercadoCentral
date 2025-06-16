@@ -180,9 +180,22 @@
     <section class="mb-4">
         <h2  id="contacto">Contacto</h2>
         <p>
-            ¿Tienes dudas? Escríbenos a:
-            <a href="mailto:dragosoftcanarias@gmail.com">dragosoftcanarias@gmail.com</a>
+            ¿Tienes dudas? ¡Contactanos!
         </p>
+        {% include 'core/bloc_messages.html' %}
+        <form method="post" action="{% url 'footer_detail' %}" class="mt-3">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Tu correo electrónico</label>
+            <p>{{ form_contacto.email }}</p>
+        </div>
+        <div> {{ form_contacto.tema }} </div>
+        <div class="mb-3">
+            <label for="id_mensaje" class="form-label">Mensaje</label>
+            <p>{{ form_contacto.mensaje }}</p>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+    </form>
     </section>
 </div>
 
