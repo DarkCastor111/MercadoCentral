@@ -1,5 +1,7 @@
 # Environnement virtuel
 venv_Dj_Proyecto_Final/
+# Environnement
+.env
 # Fichiers d'exécution
 __pycache__
 *.pyc

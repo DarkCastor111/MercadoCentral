@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -133,15 +135,17 @@ LOGOUT_REDIRECT_URL = '/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-
+load_dotenv()
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
+    raise ValueError("EMAIL_HOST_USER and EMAIL_HOST_PASSWORD must be set as environment variables.")
 
 if DEBUG:
     # EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
     # EMAIL_FILE_PATH = BASE_DIR / 'emails_sents'
     # Looking to send emails in production? Check out our Email API/SMTP product!
     EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-    EMAIL_HOST_USER = 'a21a57a89a651c'
-    EMAIL_HOST_PASSWORD = '5d563c90fd779f'
     EMAIL_PORT = '2525'
     EMAIL_USE_TLS = True
     DEFAULT_FROM_EMAIL = 'noreply@dragosoftcanarias.com'
