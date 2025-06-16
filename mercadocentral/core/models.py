@@ -97,7 +97,7 @@ class Anuncio(models.Model):
         ordering = ['-created', 'designacion']
 
     def __str__(self):
-        return self.designacion
+        return f" {self.usuario} : {self.designacion}"
     
     def save(self, *args, **kwargs):
         # Save the instance first to get a file path
@@ -146,4 +146,4 @@ class Mensaje(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return f'{self.created.strftime("%d/%m/%Y %H:%M")}'
+        return f'{self.anuncio} ({self.anuncio.usuario}) : {self.author} el {self.created.strftime("%d/%m/%Y %H:%M")}'

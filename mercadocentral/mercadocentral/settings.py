@@ -146,6 +146,6 @@ if DEBUG:
     EMAIL_USE_TLS = True
     DEFAULT_FROM_EMAIL = 'noreply@dragosoftcanarias.com'
 else:
-    # Configurar email para producción 3654d0a962e7fd779d2c1037b4c8b22f
+    # Configurar email para producción 
     pass
 
