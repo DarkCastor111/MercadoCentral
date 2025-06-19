@@ -22,7 +22,7 @@ class Anuncio(models.Model):
     ]
 
     TIPO_PRENDA = [
-        ("PRD_ALL", "Multi"),
+        ("PRD_MLT", "Multi"),
         ("PRD_POL", "Polo"),
         ("PRD_JER", "Jersey"),
         ("PRD_FAL", "Falda"),
@@ -55,7 +55,6 @@ class Anuncio(models.Model):
     ]
 
     TALLA = [
-        ("TAL_ALL", "No precisado"),
         ("74", "00"),
         ("78", "0"),
         ("82", "1"),

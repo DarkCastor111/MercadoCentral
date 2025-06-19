@@ -38,22 +38,23 @@ class AnunciosListView(ListView):
             filtro_pre = get_pre
             self.request.session['prenda'] = get_pre
         else:
-            filtro_pre = self.request.session.get('prenda', "PRD_ALL")
+            filtro_pre = self.request.session.get('prenda', "ALL")
 
         if get_tal:
             filtro_tal = get_tal
             self.request.session['talla'] = get_tal
         else:
-            filtro_tal = self.request.session.get('talla', "TAL_ALL")
+            filtro_tal = self.request.session.get('talla', "ALL")
 
 
-        if (filtro_tal != "TAL_ALL"):
+        if (filtro_tal != "ALL"):
             queryset = queryset.filter(talla=filtro_tal)
-            # queryset = queryset.filter(talla__in=valores)
 
 
-        if (filtro_pre != "PRD_ALL"):
-            queryset = queryset.filter(prenda=filtro_pre)
+        if (filtro_pre != "ALL"):
+            valores = ["PRD_MLT", filtro_pre]
+            queryset = queryset.filter(prenda__in=valores)
+            # queryset = queryset.filter(prenda=filtro_pre)
 
 
         return queryset

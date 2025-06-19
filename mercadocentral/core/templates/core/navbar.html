@@ -14,8 +14,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Tipo Prenda
-                        {% if not current_prenda or current_prenda == 'PRD_ALL' %}: No Definido
+                        Tipo Anuncio
+                        {% if not current_prenda or current_prenda == 'ALL' %}: Todos
+                        {% elif current_prenda == 'PRD_MLT' %}: Multi
                         {% elif current_prenda == 'PRD_POL' %}: Polo
                         {% elif current_prenda == 'PRD_JER' %}: Jersey
                         {% elif current_prenda == 'PRD_FAL' %}: Falda
@@ -27,9 +28,13 @@
 
                     </a>
                     <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?prenda=ALL">Todos</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li>
                             <div class="dropdown-item">
-                                <a href="{% url 'core_home' %}?prenda=PRD_ALL">
+                                <a href="{% url 'core_home' %}?prenda=PRD_MLT">
                                     <img class="img-thumbnail border border-2 border-primary-subtle" src="{% static 'core/foto_prenda_default.jpg' %}" title="Multi" alt="Foto por defecto"
                                         style="max-width: 60px; max-height: 60px;">
                                 </a>
@@ -92,7 +97,7 @@
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     Talla
-                    {% if not current_talla or current_talla == 'TAL_ALL' %}: No definida
+                    {% if not current_talla or current_talla == 'ALL' %}: Todas
                     {% elif current_talla == '74' %}: 00
                     {% elif current_talla == '78' %}: 0
                     {% elif current_talla == '82' %}: 1
@@ -111,7 +116,7 @@
                     {% endif %}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=TAL_ALL">Todas</a></li>
+                        <li><a class="dropdown-item" href="{% url 'core_home' %}?talla=ALL">Todas</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -133,7 +138,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core_home' %}?talla=TAL_ALL&prenda=PRD_ALL"><i
+                    <a class="nav-link" href="{% url 'core_home' %}?talla=ALL&prenda=ALL"><i
                         class="bi bi-x-square-fill text-danger"></i> Resetar</a>
                 </li>
 

@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-4khq(t^2_-o+ku&9yw66b$s0y##j4rij1$+f4f$=av-1)t7s38
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mimercado.eu.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -120,6 +120,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -141,15 +142,25 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
     raise ValueError("EMAIL_HOST_USER and EMAIL_HOST_PASSWORD must be set as environment variables.")
 
-if DEBUG:
-    # EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-    # EMAIL_FILE_PATH = BASE_DIR / 'emails_sents'
-    # Looking to send emails in production? Check out our Email API/SMTP product!
-    EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-    EMAIL_PORT = '2525'
-    EMAIL_USE_TLS = True
-    DEFAULT_FROM_EMAIL = 'noreply@dragosoftcanarias.com'
-else:
-    # Configurar email para producción 
-    pass
+# Local
+# EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+# EMAIL_FILE_PATH = BASE_DIR / 'emails_sents'
+# Looking to send emails in production? Check out our Email API/SMTP product!
+
+# Configurar email para producción MailTrap
+# EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+# EMAIL_PORT = '2525'
+# EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = 'noreply@dragosoftcanarias.com'
+
+# Configurar email para producción Google
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True 
+DEFAULT_FROM_EMAIL = 'noreply@dragosoftcanarias.com'
+load_dotenv()
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
+    raise ValueError("EMAIL_HOST_USER and EMAIL_HOST_PASSWORD must be set as environment variables.")
 

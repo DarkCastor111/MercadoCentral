@@ -3,7 +3,10 @@ from django.urls import reverse_lazy
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
+import logging
 from .forms import CorreoContactoForm
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 def footer_detail_view(request):
@@ -22,10 +25,8 @@ def footer_detail_view(request):
                 )
                 messages.success(request, "¡Tu mensaje ha sido enviado correctamente!")
             except Exception as e :
-                txt_msg = 'Ocurrió un error al enviar el mensaje.'
-                if settings.DEBUG:
-                    txt_msg += f'{type(e).__name__} -> {str(e)}'
-                messages.warning(request, txt_msg)
+                logger.exception(f'Ocurrió un error al enviar el mensaje : {type(e).__name__} -> {str(e)}')
+                messages.warning(request, 'Ocurrió un error al enviar el mensaje.')
         else:
             messages.warning(request, "Ocurrió un error al validar el formulario.")
         return redirect(reverse_lazy('footer_detail') + "#contacto")

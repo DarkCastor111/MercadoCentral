@@ -11,4 +11,5 @@ __pycache__
 db.sqlite3
 # Media
 mercadocentral/media/anuncios/
+mercadocentral/static
 
