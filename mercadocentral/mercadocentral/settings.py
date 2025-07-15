@@ -13,6 +13,15 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import logging
+
+# Obtenez un logger pour votre application
+logger = logging.getLogger(__name__)
+
+# Chemin absolu vers le fichier .env
+dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+logger.error(f'INFO: dotenv_path = {dotenv_path}')
+load_dotenv(dotenv_path)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -136,12 +145,6 @@ LOGOUT_REDIRECT_URL = '/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-load_dotenv()
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
-    raise ValueError("EMAIL_HOST_USER and EMAIL_HOST_PASSWORD must be set as environment variables.")
-
 # Local
 # EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 # EMAIL_FILE_PATH = BASE_DIR / 'emails_sents'
@@ -156,11 +159,13 @@ if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
 # Configurar email para producción Google
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = '587'
-EMAIL_USE_TLS = True 
-DEFAULT_FROM_EMAIL = 'noreply@dragosoftcanarias.com'
-load_dotenv()
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'dragosoftcanarias@gmail.com'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_ENV_USR")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_ENV_PWD")
+logger.error(f'INFO: EMAIL_HOST_USER = {EMAIL_HOST_USER}')
+logger.error(f'INFO: EMAIL_HOST_PASSWORD starts with = {EMAIL_HOST_PASSWORD[:4] if EMAIL_HOST_PASSWORD else "N/A"}')
 if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
     raise ValueError("EMAIL_HOST_USER and EMAIL_HOST_PASSWORD must be set as environment variables.")
-

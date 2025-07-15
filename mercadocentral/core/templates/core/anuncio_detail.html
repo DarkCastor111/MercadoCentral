@@ -113,12 +113,12 @@
 
                 {% if user == anuncio.usuario %}
                 <a id="editar" href="{% url 'core_up_anun' anuncio.id anuncio.designacion|slugify %}" class="btn btn-outline-danger btn-block btn-sm mt-3">Editar...</a>
-                <a id="desactivar" href="{% url 'api_desactivar' anuncio.id %}" class="btn btn-outline-danger btn-block btn-sm mt-3">Desactivar...</a>
+                <a id="desactivar" href="{% url 'api_desactivar' anuncio.id %}" class="btn btn-outline-danger btn-block btn-sm mt-3">Eliminar...</a>
                 {% endif %}
             </div>
 
             <div class="card-footer">
-                <small class="text-primary">Anuncio creado el {{ anuncio.created|date:"d F Y" }}</small>
+                <small class="text-primary">Anuncio creado por {{ anuncio.usuario }} el {{ anuncio.created|date:"d F Y" }}</small>
             </div>
 
         </div>
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var desactivarLink = document.getElementById('desactivar');
     if (desactivarLink) {
         desactivarLink.addEventListener('click', function(e) {
-            if (!confirm('¿Estás seguro de que deseas desactivar este anuncio?')) {
+            if (!confirm('¿Estás seguro de que deseas eliminar este anuncio?')) {
                 e.preventDefault();
             }
         });

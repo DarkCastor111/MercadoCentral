@@ -1,10 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from PIL import Image
+from PIL import Image, ExifTags
 from io import BytesIO
 from django.core.files.base import ContentFile
 import os
+import logging
+
+# Obtenez un logger pour votre application
+logger = logging.getLogger(__name__)
 
 
 # Create your models here.
@@ -27,7 +31,7 @@ class Anuncio(models.Model):
         ("PRD_JER", "Jersey"),
         ("PRD_FAL", "Falda"),
         ("PRD_PAN", "Pantalón"),
-        ("PRD_CHD", "Chandal"),
+        ("PRD_CHD", "Chándal"),
         ("PRD_BER", "Bermuda"),
         ("PRD_BAB", "Babi"),
     ]
@@ -98,39 +102,55 @@ class Anuncio(models.Model):
     def __str__(self):
         return f" {self.usuario} : {self.designacion}"
     
+    
     def save(self, *args, **kwargs):
+        def corregir_orientacion(img):
+            try:
+                exif = img._getexif()
+                if not exif:
+                    # logger.error('INFO: Corregir_orientacion: no exif')
+                    return img
+                # logger.error('INFO: Corregir_orientacion')
+                orientation_key = next(k for k, v in ExifTags.TAGS.items() if v == 'Orientation')
+                orientation = exif.get(orientation_key)
+                if orientation == 3:
+                    img = img.rotate(180, expand=True)
+                elif orientation == 6:
+                    img = img.rotate(270, expand=True)
+                elif orientation == 8:
+                    img = img.rotate(90, expand=True)
+            except Exception as e:
+                logger.error(f'EXCEPTION: Corregir_orientacion: {e}')
+            return img
+        
         # Save the instance first to get a file path
         super().save(*args, **kwargs)
 
-        # Tratamiento de la foto
+        # Traitement de la photo
         if self.foto and self.foto.size > 200000:
+            # logger.error('INFO: Foto > 200k')
             try:
                 img = Image.open(self.foto.path)
-                nombre_fichero = os.path.splitext(os.path.basename(self.foto.name))[0] + ".jpg"
+                img = corregir_orientacion(img)
 
-                # Conversión a RGB (para PNG, etc.)
                 if img.mode != 'RGB':
                     img = img.convert('RGB')
-                # Resize or compress as needed (optional: resize here)
-                # img = img.resize((desired_width, desired_height))
 
-                # Save to BytesIO as JPEG with 80% quality
                 buffer = BytesIO()
                 img.save(buffer, format='JPEG', quality=80)
                 buffer.seek(0)
 
-                # Replace the original file
+                nombre_fichero = os.path.splitext(os.path.basename(self.foto.name))[0] + ".jpg"
                 self.foto.save(
                     nombre_fichero,
                     ContentFile(buffer.read()),
                     save=False
                 )
                 buffer.close()
-                super().save(*args, **kwargs)  # Save again to update the file
+                super().save(*args, **kwargs)
             except Exception as e:
-                # Optionally log the error
-                pass
-    
+                logger.error(f'EXCEPTION: save Anuncio: {e}')
+  
 class Mensaje(models.Model):
 
     anuncio = models.ForeignKey(Anuncio, on_delete=models.CASCADE, related_name="mensajes_anuncio")

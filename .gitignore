@@ -2,6 +2,8 @@
 venv_Dj_Proyecto_Final/
 # Environnement
 .env
+# Fichiers .bak
+*.bak
 # Fichiers d'exécution
 __pycache__
 *.pyc
