@@ -20,7 +20,7 @@ def home(request):
 
 class AnunciosListView(ListView):
     model = Anuncio
-    paginate_by = 8
+    paginate_by = 9
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,6 +55,8 @@ class AnunciosListView(ListView):
             valores = ["PRD_MLT", filtro_pre]
             queryset = queryset.filter(prenda__in=valores)
             # queryset = queryset.filter(prenda=filtro_pre)
+
+        queryset = queryset.order_by( "mensajes", "-created")
 
 
         return queryset

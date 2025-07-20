@@ -41,7 +41,7 @@ class Anuncio(models.Model):
         ("EST_NUEVO", "Nuevo"),
         ("EST_COMNUE", "Como nuevo"),
         ("EST_PRIM", "Primera mano"),
-        ("EST_SEC", "Secunda mano"),
+        ("EST_SEC", "Segunda mano"),
     ]
 
     GENERO = [

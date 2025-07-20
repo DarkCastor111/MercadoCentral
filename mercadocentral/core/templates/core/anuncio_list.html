@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block contenido %}
+<div class="container">
     {% include 'core/bloc_messages.html' %}
     <div class="row">
         {% for anuncio in anuncio_list %}
@@ -63,6 +64,10 @@
 
             </div>
         </div>
+        {% empty %}
+        <div class="alert alert-warning col-md-6 mt-2 mb-3" role="alert">
+            <p>No hay resultados, cambia tus criterios</p>
+        </div>
         {% endfor %}
     </div>
     <!-- Menú de paginación -->
@@ -94,5 +99,6 @@
         {% endif %}
         </ul>
     </nav>
-    {% endif %}    
+    {% endif %}
+ </div>  
 {% endblock %}
