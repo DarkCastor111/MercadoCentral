@@ -105,51 +105,68 @@ class Anuncio(models.Model):
     
     def save(self, *args, **kwargs):
         def corregir_orientacion(img):
-            try:
-                exif = img._getexif()
-                if not exif:
-                    # logger.error('INFO: Corregir_orientacion: no exif')
-                    return img
-                # logger.error('INFO: Corregir_orientacion')
-                orientation_key = next(k for k, v in ExifTags.TAGS.items() if v == 'Orientation')
-                orientation = exif.get(orientation_key)
-                if orientation == 3:
-                    img = img.rotate(180, expand=True)
-                elif orientation == 6:
-                    img = img.rotate(270, expand=True)
-                elif orientation == 8:
-                    img = img.rotate(90, expand=True)
-            except Exception as e:
-                logger.error(f'EXCEPTION: Corregir_orientacion: {e}')
+
+            exif = img._getexif()
+            if not exif:
+                # logger.error('INFO: Corregir_orientacion: no exif')
+                return img
+            # logger.error('INFO: Corregir_orientacion')
+            orientation_key = next(k for k, v in ExifTags.TAGS.items() if v == 'Orientation')
+            orientation = exif.get(orientation_key)
+            if orientation == 3:
+                img = img.rotate(180, expand=True)
+            elif orientation == 6:
+                img = img.rotate(270, expand=True)
+            elif orientation == 8:
+                img = img.rotate(90, expand=True)
+
             return img
         
-        # Save the instance first to get a file path
+        def redimensionar(img):
+            max_width = 1200
+            max_height = 1200
+
+            # Redimensionnement de la photo
+            # Obtenir dimensions
+            width, height = img.size
+            # Calcul du ratio à appliquer
+            if width > max_width or height > max_height:
+                ratio = min(max_width / width, max_height / height)
+                new_width = int(width * ratio)
+                new_height = int(height * ratio)
+                img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+            
+            return img
+    
+        def gardar_como_jpeg(img):
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+
+            buffer = BytesIO()
+            img.save(buffer, format='JPEG', quality=80)
+            buffer.seek(0)
+
+            nombre_fichero = os.path.splitext(os.path.basename(self.foto.name))[0] + ".jpg"
+            self.foto.save(
+                nombre_fichero,
+                ContentFile(buffer.read()),
+                save=False
+            )
+            buffer.close()
+
+
+        # Save the anuncio first to get a file path
         super().save(*args, **kwargs)
 
-        # Traitement de la photo
-        if self.foto and self.foto.size > 200000:
-            # logger.error('INFO: Foto > 200k')
+        if self.foto:
             try:
                 img = Image.open(self.foto.path)
                 img = corregir_orientacion(img)
-
-                if img.mode != 'RGB':
-                    img = img.convert('RGB')
-
-                buffer = BytesIO()
-                img.save(buffer, format='JPEG', quality=80)
-                buffer.seek(0)
-
-                nombre_fichero = os.path.splitext(os.path.basename(self.foto.name))[0] + ".jpg"
-                self.foto.save(
-                    nombre_fichero,
-                    ContentFile(buffer.read()),
-                    save=False
-                )
-                buffer.close()
-                super().save(*args, **kwargs)
+                img = redimensionar(img)
+                gardar_como_jpeg(img)
             except Exception as e:
-                logger.error(f'EXCEPTION: save Anuncio: {e}')
+                logger.error(f'EXCEPTION: tratamiento foto: {e}')
+            super().save(*args, **kwargs)
   
 class Mensaje(models.Model):
 
