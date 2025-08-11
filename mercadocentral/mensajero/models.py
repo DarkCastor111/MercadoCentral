@@ -16,6 +16,28 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.author} el {self.fecha_emision.strftime("%d/%m/%Y %H:%M")}'
     
+class HiloManager(models.Manager):
+    def encontrar(self, ancio, inter):
+        queryset_resultado = self.filter(anuncio=ancio).filter(interesado=inter)
+        if len(queryset_resultado) > 0:
+            return queryset_resultado[0]
+        return None
+
+    def encontrar_o_crear(self, ancio, inter):
+        hilo_encontrado = self.encontrar(ancio, inter)
+        if hilo_encontrado:
+            return hilo_encontrado
+        else:
+            hilo_creado = Hilo.objects.create(
+                anuncio = ancio,
+                propietario = ancio.usuario,
+                interesado = inter
+            )
+
+            return hilo_creado
+
+
+    
 class Hilo(models.Model):
     anuncio = models.ForeignKey(Anuncio, on_delete=models.CASCADE, related_name="hilos_anuncio")
     propietario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hilos_activos_prop')
@@ -23,7 +45,10 @@ class Hilo(models.Model):
     posts = models.ManyToManyField(Post)
     fecha_modificacion = models.DateTimeField(auto_now=True)
     
-    # objects = HiloManager()
+    objects = HiloManager()
 
     class Meta:
         ordering = ['-fecha_modificacion']
+
+    def __str__(self):
+        return f'({self.anuncio}) {self.interesado} : última modificación el {self.fecha_modificacion.strftime("%d/%m/%Y %H:%M")}'

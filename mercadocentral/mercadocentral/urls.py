@@ -20,6 +20,7 @@ from core import views
 from usuarios.urls import usuarios_patterns
 from footer.urls import footer_patterns
 from django.conf import settings
+from mensajero.urls import mensajero_patterns
 
 urlpatterns = [
 #    path('', views.home, name="core_home"),
@@ -29,7 +30,7 @@ urlpatterns = [
     path('favoritos/', views.AnunciosFavoritosListView.as_view(), name='core_fav'),
     path('nv_anuncio/', views.AnuncioCreateView.as_view(), name='core_nv_anun' ),
     path('up_anuncio/<int:pk>/<slug:page_slug>/', views.AnuncioUpdateView.as_view(), name='core_up_anun' ),
-    path('reservar/', views.api_reservar, name='api_reservar' ),
+#    path('reservar/', views.api_reservar, name='api_reservar' ),
     path('desactivar/<int:pk_an>/', views.api_desactivar, name='api_desactivar' ),
     path('admin/', admin.site.urls),
     # Paths de Auth
@@ -37,6 +38,9 @@ urlpatterns = [
     # path('usuarios/', include('django.contrib.auth.urls')),
     # Path de footer
     path('footer/', include(footer_patterns)),
+    # Path de mensajero
+    path('mensajero/', include(mensajero_patterns)),
+
     # Temporal
 
 ]

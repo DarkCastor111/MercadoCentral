@@ -3,13 +3,14 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
-from django.db import IntegrityError
+
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.utils.decorators import method_decorator
 from django.utils.text import slugify
 from .models import Anuncio, Mensaje
+from mensajero.models import Hilo
 from .forms import AnuncioForm
 
 # Create your views here.
@@ -73,7 +74,14 @@ class AnuncioDetailView(DetailView):
             Mensaje.objects.filter(anuncio=anuncio)
             .values_list('author__username', flat=True)
         ))
+
+        # Listado de Hilos de este anuncio
+        context['hilos_anuncio'] = list(set(
+            Hilo.objects.filter(anuncio=anuncio)
+        ))
+
         context['origen']=self.request.GET.get('origen')
+
         return context
     
 @method_decorator(login_required, name='dispatch')   
@@ -133,33 +141,6 @@ class AnuncioUpdateView( UserPassesTestMixin, UpdateView):
         return self.request.user == anuncio.usuario or self.request.user.is_superuser # type: ignore
 
     
-def api_reservar(request):
-    pk_anuncio = request.POST["form_pk_anuncio"]
-    ancio = Anuncio.objects.get(pk=pk_anuncio)
-    msj = request.POST["form_mensaje"]
-
-
-    if not msj or msj.strip() == "":
-        messages.warning(request, "El mensaje no puede estar vacío.")
-        return redirect('core_anuncio', pk=pk_anuncio, page_slug=slugify(ancio.designacion))
-
-    try:
-        ancio.mensajes += 1
-        ancio.save()
-        
-        com = Mensaje.objects.create(
-            anuncio=ancio,
-            author=request.user,
-            texto=msj
-        )
-        com.save()
-    except (IntegrityError, ValueError):
-        messages.warning(request, "Error al guardar el mensaje.")
-        return redirect('core_anuncio', pk=pk_anuncio, page_slug=slugify(ancio.designacion))
-
-    messages.success(request, "Mensaje guardado correctamente.")
-    return redirect('core_anuncio', pk=pk_anuncio, page_slug=slugify(ancio.designacion))
-
 def api_desactivar(request, pk_an):
     if not pk_an:
         messages.error(request, "No se ha especificado el anuncio a desactivar.")

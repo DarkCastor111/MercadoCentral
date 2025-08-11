@@ -37,6 +37,17 @@
                 </p>
                 {% endif %}
                 <p class="card-text">{{ anuncio.descripcion|linebreaksbr|safe }}</p>
+
+                <p class="card-text">
+                    {% for hilo in hilos_anuncio %}
+                        {{ hilo }}
+                        <a href="{% url 'mensajero:hdetail' hilo.id %}">
+                            <i class="bi bi-arrow-right-circle"></i> Detalles</a>
+                        <br>
+                    {% empty %}
+                        <h6>No hay hilos</h6>
+                    {% endfor %}
+                </p>
                 
                 <p class="card-text"> 
                     {% if interesados_usernames|length == 0 %}
@@ -87,7 +98,7 @@
                 {% endfor %}
 
                 {% if user != anuncio.usuario %}
-                <form action="{% url 'api_reservar' %}" method="post">
+                <form action="{% url 'mensajero:api_reservar' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="form_pk_anuncio" value="{{ anuncio.pk }}">
                     <div class="row">
