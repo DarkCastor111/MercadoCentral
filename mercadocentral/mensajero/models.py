@@ -11,7 +11,7 @@ class Post(models.Model):
     class Meta():
         verbose_name = "post"
         verbose_name_plural = "posts"
-        ordering = ['-fecha_emision']
+        ordering = ['fecha_emision']
 
     def __str__(self):
         return f'{self.author} el {self.fecha_emision.strftime("%d/%m/%Y %H:%M")}'
@@ -51,4 +51,10 @@ class Hilo(models.Model):
         ordering = ['-fecha_modificacion']
 
     def __str__(self):
-        return f'({self.anuncio}) {self.interesado} : última modificación el {self.fecha_modificacion.strftime("%d/%m/%Y %H:%M")}'
+        return f'Hilo de {self.anuncio} {self.interesado} el {self.fecha_modificacion.strftime("%d/%m/%Y %H:%M")}'
+    
+    def print_interesado(self):
+        return f'{self.interesado} el {self.fecha_modificacion.strftime("%d/%m/%Y %H:%M")}'
+    
+    def print_presentacion(self):
+        return f'Conversación entre {self.interesado} y {self.propietario} sobre {self.anuncio.designacion}'
