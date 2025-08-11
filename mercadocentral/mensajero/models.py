@@ -23,7 +23,13 @@ class HiloManager(models.Manager):
             return queryset_resultado[0]
         return None
 
-    def encontrar_o_crear(self, ancio, inter):
+    def encontrar_o_crear(self, pk_hilo, ancio, inter):
+        if pk_hilo:
+            try:
+                return self.get(pk=pk_hilo)
+            except Hilo.DoesNotExist:
+                pass  # If not found, continue to find or create        
+        
         hilo_encontrado = self.encontrar(ancio, inter)
         if hilo_encontrado:
             return hilo_encontrado

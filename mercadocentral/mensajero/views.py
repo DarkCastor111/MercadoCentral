@@ -25,9 +25,12 @@ class HiloDetailView(DetailView):
 
 
 
-def api_reservar(request):
+def api_dejar_mensaje(request):
     pk_anuncio = request.POST["form_pk_anuncio"]
     ancio = Anuncio.objects.get(pk=pk_anuncio)
+
+    pk_hilo = request.POST["form_pk_hilo"]
+
     msj = request.POST["form_mensaje"]
 
 
@@ -36,7 +39,7 @@ def api_reservar(request):
         return redirect('core_anuncio', pk=pk_anuncio, page_slug=slugify(ancio.designacion))
     
     # Encontrar el hilo
-    hilo = Hilo.objects.encontrar_o_crear(ancio, request.user) # type: ignore
+    hilo = Hilo.objects.encontrar_o_crear(pk_hilo, ancio, request.user) # type: ignore
 
     try:
         ancio.mensajes += 1

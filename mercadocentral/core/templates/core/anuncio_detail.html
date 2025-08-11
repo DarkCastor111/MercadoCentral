@@ -48,7 +48,11 @@
                         <br>
                         {% endif %}
                     {% empty %}
-                        <h6>No hay personas interesadas</h6>
+                        {% if user != anuncio.usuario %}
+                            <b>Sea el primero en reservar esta prenda</b>
+                        {% else %}
+                            <b>Nadie ha dejado un mensaje aún</b>
+                        {% endif %}
                     {% endfor %}
                 </p>
                 
@@ -103,9 +107,10 @@
                 -->
                         
                 {% if user != anuncio.usuario %}
-                <form action="{% url 'mensajero:api_reservar' %}" method="post">
+                <form action="{% url 'mensajero:api_dejar_mensaje' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="form_pk_anuncio" value="{{ anuncio.pk }}">
+                    <input type="hidden" name="form_pk_hilo" value="">
                     <div class="row">
                         <div class="col-8 pe-0">
                             <textarea name="form_mensaje" cols="40" rows="3" class="form-control" required="" placeholder="Mi mensaje"></textarea>
