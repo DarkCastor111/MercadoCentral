@@ -37,30 +37,49 @@
                 </p>
                 {% endif %}
                 <p class="card-text">{{ anuncio.descripcion|linebreaksbr|safe }}</p>
-                
-                <p class="card-text"> 
-                    {% if interesados_usernames|length == 0 %}
-                    {% elif interesados_usernames|length == 1 %}
-                    <span class="badge text-bg-primary">1</span> Persona interesada
-                    {% else %}
-                    <span class="badge text-bg-primary">{{ interesados_usernames|length }}</span> Personas interesadas
-                    {% endif %}
-                    {% if user == anuncio.usuario %}
-                        {% for usrname in interesados_usernames %}
-                            {% if forloop.last %}
-                                {{ usrname }}
-                            {% else %}
-                                {{ usrname }},
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
 
+                <p class="card-text">
+                    Personas interesadas :<br>
+                    {% for hilo in hilos_anuncio %}
+                        - {{ hilo.print_interesado }}
+                        {% if user == anuncio.usuario or user == hilo.interesado %}
+                        <a href="{% url 'mensajero:hdetail' hilo.id %}">
+                            <i class="bi bi-arrow-right-circle"></i> Detalles</a>
+                        {% endif %}
+                        <br>
+                    {% empty %}
+                        {% if user != anuncio.usuario %}
+                            <b>Sea el primero en reservar esta prenda</b>
+                        {% else %}
+                            <b>Nadie ha dejado un mensaje aún</b>
+                        {% endif %}
+                    {% endfor %}
                 </p>
-
-
-                {% regroup anuncio.mensajes_anuncio.all|dictsort:"created" by author as mensajes_por_autor %}
-
-                {% for grupo in mensajes_por_autor %}
+                
+                <!-- 
+                    <p class="card-text"> 
+                        {% if interesados_usernames|length == 0 %}
+                        {% elif interesados_usernames|length == 1 %}
+                        <span class="badge text-bg-primary">1</span> Persona interesada
+                        {% else %}
+                        <span class="badge text-bg-primary">{{ interesados_usernames|length }}</span> Personas interesadas
+                        {% endif %}
+                        {% if user == anuncio.usuario %}
+                        {% for usrname in interesados_usernames %}
+                        {% if forloop.last %}
+                        {{ usrname }}
+                        {% else %}
+                        {{ usrname }},
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        
+                    </p>
+                    
+                    
+                    {% regroup anuncio.mensajes_anuncio.all|dictsort:"created" by author as mensajes_por_autor %}
+                    
+                    {% for grupo in mensajes_por_autor %}
                     {% if grupo.grouper == user or user == anuncio.usuario %}
                     <div class="mb-3">
                         <h6>
@@ -71,25 +90,27 @@
                             {% endif %}
                         </h6>
                         {% for mensaje in grupo.list %}
-                            <div class="alert alert-light col-8" role="alert">
-                                <div>
-                                    El {{ mensaje.created|date:"d/m/Y" }} a las {{ mensaje.created|date:"H:i" }} :<br>
-                                </div>
+                        <div class="alert alert-light col-8" role="alert">
+                            <div>
+                                El {{ mensaje.created|date:"d/m/Y" }} a las {{ mensaje.created|date:"H:i" }} :<br>
+                            </div>
                                 <div class="text-end">
                                     {{ mensaje.texto|linebreaksbr }}
                                 </div>
                             </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        {% empty %}
+                        <h6> No hay mensajes.</h6>
                         {% endfor %}
-                    </div>
-                    {% endif %}
-                {% empty %}
-                    <h6> No hay mensajes.</h6>
-                {% endfor %}
-
+                -->
+                        
                 {% if user != anuncio.usuario %}
-                <form action="{% url 'api_reservar' %}" method="post">
+                <form action="{% url 'mensajero:api_dejar_mensaje' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="form_pk_anuncio" value="{{ anuncio.pk }}">
+                    <input type="hidden" name="form_pk_hilo" value="">
                     <div class="row">
                         <div class="col-8 pe-0">
                             <textarea name="form_mensaje" cols="40" rows="3" class="form-control" required="" placeholder="Mi mensaje"></textarea>
@@ -101,6 +122,8 @@
                         </div>
                     </div>
                 </form>
+                <!-- <h6 class="text-danger">Los mensajes enviados no generan notificaciones o correos => Recuerda chekear tus anuncios o tus favoritos</h6> -->
+
                 {% endif %}
 
                 {% if origen == "favs" %}
