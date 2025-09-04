@@ -106,7 +106,8 @@ class AnunciosFavoritosListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(activo=True)
         user = self.request.user
-        queryset = queryset.filter(mensajes_anuncio__author=user).distinct()
+        #queryset = queryset.filter(mensajes_anuncio__author=user).distinct()
+        queryset = queryset.filter(hilos_anuncio__interesado=user).distinct()
         return queryset
     
     def get_context_data(self, **kwargs):

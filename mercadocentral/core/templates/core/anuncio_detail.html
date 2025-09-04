@@ -45,8 +45,8 @@
                         {% if user == anuncio.usuario or user == hilo.interesado %}
                         <a href="{% url 'mensajero:hdetail' hilo.id %}">
                             <i class="bi bi-arrow-right-circle"></i> Detalles</a>
-                        <br>
                         {% endif %}
+                        <br>
                     {% empty %}
                         {% if user != anuncio.usuario %}
                             <b>Sea el primero en reservar esta prenda</b>
@@ -122,6 +122,8 @@
                         </div>
                     </div>
                 </form>
+                <!-- <h6 class="text-danger">Los mensajes enviados no generan notificaciones o correos => Recuerda chekear tus anuncios o tus favoritos</h6> -->
+
                 {% endif %}
 
                 {% if origen == "favs" %}

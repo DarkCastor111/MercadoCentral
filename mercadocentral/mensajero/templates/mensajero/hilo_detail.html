@@ -43,11 +43,11 @@
         {% for msg in object.posts.all %}
         <!-- Dependiendo del usuario asignamos una clase con un color de fondo u otro en el mensaje -->
         {% if request.user == msg.author %}
-        <div  class="msg-mine mb-3">
+        <div  class="msg-mine border mb-3">
         {% else %}
         <div  class="msg-other mb-3">
         {% endif %}
-            <small><i>Hace {{msg.fecha_emision|timesince}}</i></small><br>
+            <small>(<i>Hace {{msg.fecha_emision|timesince}}</i>) {{msg.author}} :     </small><br>
             {{msg.contenido}}
         </div>
         {% endfor %}
@@ -60,7 +60,7 @@
         <div class="row">
             <div class="col-8 pe-0">
                 <textarea name="form_mensaje" cols="40" rows="3" class="form-control" required=""
-                    placeholder="Mi mensaje"></textarea>
+                    placeholder="Mi mensaje" style="background-color: rgba(230, 242, 245, .5);"></textarea>
             </div>
             <div class="col-4">
                 <button class="btn btn-secondary btn-sm m-1" type="submit">
@@ -69,6 +69,7 @@
             </div>
         </div>
     </form>
+    <!--<h6 class="text-danger">Los mensajes enviados no generan notificaciones o correos => Recuerda chekear tus anuncios o tus favoritos</h6>-->
 
 </div>
 

@@ -60,7 +60,7 @@ class Hilo(models.Model):
         return f'Hilo de {self.anuncio} {self.interesado} el {self.fecha_modificacion.strftime("%d/%m/%Y %H:%M")}'
     
     def print_interesado(self):
-        return f'{self.interesado} el {self.fecha_modificacion.strftime("%d/%m/%Y %H:%M")}'
+        return f'{self.interesado} (último mensaje el {self.fecha_modificacion.strftime("%d/%m/%Y %H:%M")})'
     
     def print_presentacion(self):
         return f'Conversación entre {self.interesado} y {self.propietario} sobre {self.anuncio.designacion}'
